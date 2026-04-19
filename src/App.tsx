@@ -85,9 +85,9 @@ export function App() {
           )}
         </h1>
         <div className="masthead__meta">
-          <span>{t('app.volume')} {major} <span className="masthead__rule-glyph">§</span> {t('app.issue')} {minor}</span>
+          <span>{t('app.volume')} {major} <span className="masthead__rule-glyph">·</span> {t('app.issue')} {minor}</span>
           <br />
-          <strong>{t('app.week')} {weekNo} <span className="masthead__rule-glyph">§</span> {mastheadDate}</strong>
+          <strong>{t('app.week')} {weekNo} <span className="masthead__rule-glyph">·</span> {mastheadDate}</strong>
         </div>
       </header>
 
@@ -133,9 +133,9 @@ export function App() {
 
       <footer className="colophon">
         <span>© {now.getFullYear()} Fabian Wessel</span>
-        <span className="colophon__sep">§</span>
+        <span className="colophon__sep">·</span>
         <span>{t('colophon.licensedUnder')}</span>
-        <span className="colophon__sep">§</span>
+        <span className="colophon__sep">·</span>
         <a className="colophon__link" href="/licenses.txt" target="_blank" rel="noopener noreferrer">
           {t('colophon.thirdParty')}
         </a>
