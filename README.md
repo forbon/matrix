@@ -17,6 +17,43 @@ Eine browserbasierte Matrix-Anwendung zur Priorisierung von Aufgaben nach **Wich
 - **Zweisprachig** (Deutsch / Englisch), persistent
 - **Hell / Dunkel / System**-Theme, persistent
 
+## Deployment-Konfiguration
+
+Die App liest zur Laufzeit eine optionale Datei `public/config.js`, die **nicht ins Repository gehört** (gitignored). Damit lassen sich deployer-spezifische Daten wie Impressum- und Datenschutz-URLs setzen, ohne sie in den Quellcode zu schreiben.
+
+**Vorlage kopieren und befüllen:**
+
+```bash
+cp public/config.example.js public/config.js
+# Datei mit eigenen URLs befüllen
+```
+
+```js
+// public/config.js
+window.__MATRIX_CONFIG__ = {
+  impressumUrl: 'https://example.de/impressum',
+  privacyUrl:   'https://example.de/datenschutz',
+};
+```
+
+Sind die URLs gesetzt, erscheinen die Links im Footer der App. Fehlt die Datei oder sind die Felder leer, werden die Links schlicht nicht angezeigt — die App läuft in jedem Fall fehlerfrei.
+
+### Docker
+
+Im Container wird `config.js` als Read-only-Volume gemountet:
+
+```yaml
+services:
+  matrix:
+    image: ghcr.io/forbon/matrix:latest
+    volumes:
+      - ./config.js:/usr/share/nginx/html/config.js:ro
+    environment:
+      - VIRTUAL_HOST=matrix.example.de
+```
+
+Die `config.js` liegt neben der `docker-compose.yml` auf dem Server und benötigt Standardrechte (`644`).
+
 ## Entwicklung
 
 Vorausgesetzt: Node.js ≥ 18.
