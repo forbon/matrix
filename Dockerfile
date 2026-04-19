@@ -7,4 +7,5 @@ RUN npm run build
 
 FROM nginx:alpine
 COPY --from=build /app/dist /usr/share/nginx/html
+COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 RUN echo "window.__MATRIX_CONFIG__ = {};" > /usr/share/nginx/html/config.js
