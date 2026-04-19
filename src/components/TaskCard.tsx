@@ -23,12 +23,6 @@ function getHostname(url: string): string {
   }
 }
 
-function getFaviconUrl(url: string): string {
-  const hostname = getHostname(url);
-  if (!hostname) return '';
-  return `https://${hostname}/favicon.ico`;
-}
-
 function linkDisplay(url: string, label?: string): string {
   return label || getHostname(url) || '↗';
 }
@@ -181,24 +175,7 @@ export function TaskCard({ task, draggable = true, onEdit, onDelete, onToggleCom
                   title={link.url}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  {getHostname(link.url) ? (
-                    <img
-                      src={getFaviconUrl(link.url)}
-                      width={13}
-                      height={13}
-                      alt=""
-                      className="task-link__favicon"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                        const arrow = e.currentTarget.nextElementSibling as HTMLElement | null;
-                        if (arrow) arrow.style.display = 'inline';
-                      }}
-                    />
-                  ) : null}
-                  <span
-                    className="task-link__arrow"
-                    style={{ display: getHostname(link.url) ? 'none' : 'inline' }}
-                  >↗</span>
+                  <span className="task-link__arrow">↗</span>
                   <span className="task-link__label">{linkDisplay(link.url, link.label)}</span>
                 </a>
               ))}

@@ -29,7 +29,6 @@ const de = {
   'action.save': 'Speichern',
   'action.cancel': 'Abbrechen',
   'action.export.json': 'Export JSON',
-  'action.export.csv': 'Export CSV',
   'action.import': 'Importieren',
   'action.enableReminders': 'Erinnerungen aktivieren',
   'action.remindersOn': 'Erinnerungen aktiv',

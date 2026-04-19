@@ -17,36 +17,6 @@ export function exportJSON(tasks: Task[]): void {
   triggerDownload(blob, `matrix-${Date.now()}.json`);
 }
 
-const CSV_HEADER = ['id', 'title', 'description', 'quadrant', 'dueDate', 'createdAt', 'completed'];
-
-function csvEscape(value: unknown): string {
-  if (value === undefined || value === null) return '';
-  const s = String(value);
-  if (/[",\r\n]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
-  return s;
-}
-
-export function exportCSV(tasks: Task[]): void {
-  const lines = [CSV_HEADER.join(',')];
-  for (const t of tasks) {
-    lines.push(
-      [
-        t.id,
-        t.title,
-        t.description ?? '',
-        t.quadrant,
-        t.dueDate ?? '',
-        t.createdAt,
-        t.completed ? 'true' : 'false',
-      ]
-        .map(csvEscape)
-        .join(','),
-    );
-  }
-  const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' });
-  triggerDownload(blob, `matrix-${Date.now()}.csv`);
-}
-
 function parseCSVLine(line: string): string[] {
   const fields: string[] = [];
   let cur = '';

@@ -31,7 +31,6 @@ const en: Dict = {
   'action.save': 'Save',
   'action.cancel': 'Cancel',
   'action.export.json': 'Export JSON',
-  'action.export.csv': 'Export CSV',
   'action.import': 'Import',
   'action.enableReminders': 'Enable reminders',
   'action.remindersOn': 'Reminders on',

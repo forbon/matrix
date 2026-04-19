@@ -1183,12 +1183,6 @@ button { cursor: pointer; touch-action: manipulation; }
   box-shadow: 1px 1px 0 0 var(--spot, var(--pink));
 }
 
-.task-link__favicon {
-  flex-shrink: 0;
-  display: block;
-  image-rendering: auto;
-}
-
 .task-link__arrow {
   font-size: 11px;
   flex-shrink: 0;

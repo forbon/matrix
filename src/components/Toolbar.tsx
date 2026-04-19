@@ -3,7 +3,7 @@ import type { Task, Theme } from '../types';
 import { useI18n } from '../hooks/useI18n';
 import { useTheme } from '../hooks/useTheme';
 import { LanguageSwitcher } from './LanguageSwitcher';
-import { exportCSV, exportJSON, importFromFile } from '../lib/importExport';
+import { exportJSON, importFromFile } from '../lib/importExport';
 import type { NotificationState } from '../lib/notifications';
 
 const THEME_GLYPH: Record<Theme, string> = {
@@ -87,9 +87,6 @@ export function Toolbar({ tasks, onAdd, onImport, notificationState, onEnableRem
           <button type="button" className="btn" onClick={() => exportJSON(tasks)}>
             {t('action.export.json')}
           </button>
-          <button type="button" className="btn" onClick={() => exportCSV(tasks)}>
-            {t('action.export.csv')}
-          </button>
           <button type="button" className="btn" onClick={() => fileInput.current?.click()}>
             {t('action.import')}
           </button>
@@ -147,17 +144,6 @@ export function Toolbar({ tasks, onAdd, onImport, notificationState, onEnableRem
                 }}
               >
                 {t('action.export.json')}
-              </button>
-              <button
-                type="button"
-                role="menuitem"
-                className="toolbar__menu-item"
-                onClick={() => {
-                  setMenuOpen(false);
-                  exportCSV(tasks);
-                }}
-              >
-                {t('action.export.csv')}
               </button>
               <button
                 type="button"
