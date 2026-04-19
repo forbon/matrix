@@ -10,10 +10,12 @@ Eine browserbasierte Matrix-Anwendung zur Priorisierung von Aufgaben nach **Wich
   - *Delegieren* (nicht wichtig, dringend)
   - *Eliminieren* (weder noch)
 - **Aufgaben** anlegen, bearbeiten, abhaken, löschen
+- **Links** pro Aufgabe (mit automatischem Favicon)
 - **Fälligkeitsdatum** mit visuellen Markern (überfällig / heute / morgen)
 - **Browser-Benachrichtigungen** bei fälligen Aufgaben (optional)
 - **Import/Export** als JSON oder CSV
 - **Zweisprachig** (Deutsch / Englisch), persistent
+- **Hell / Dunkel / System**-Theme, persistent
 
 ## Entwicklung
 
@@ -34,6 +36,7 @@ npm run preview   # Build lokal prüfen
 - Export: **Export JSON** oder **Export CSV** lädt eine Datei herunter.
 - Import: **Importieren** → Datei wählen. Bei vorhandenen Aufgaben wird gefragt, ob sie ersetzt oder zusammengeführt werden sollen.
 - Sprache: oben rechts umschaltbar.
+- Theme: Toggle in der Toolbar zykelt **Hell → Dunkel → System**. Beim ersten Start folgt das Theme der System-Einstellung (`prefers-color-scheme`).
 
 ## Erinnerungen — Limitation
 
@@ -46,6 +49,11 @@ React 18 · TypeScript · Vite · LocalStorage · native HTML5 Drag & Drop · No
 ## Datenstruktur
 
 ```ts
+interface TaskLink {
+  url: string;
+  label?: string;
+}
+
 interface Task {
   id: string;
   title: string;
@@ -54,6 +62,7 @@ interface Task {
   dueDate?: string;    // ISO 8601
   createdAt: string;   // ISO 8601
   completed?: boolean;
+  links?: TaskLink[];
 }
 ```
 
@@ -61,6 +70,7 @@ Gespeichert unter den LocalStorage-Schlüsseln:
 
 - `matrix.tasks` — Aufgabenliste (JSON)
 - `matrix.lang` — `de` | `en`
+- `matrix.theme` — `light` | `dark` | `system`
 - `matrix.firedReminders` — bereits ausgelöste Erinnerungs-IDs
 
 ## Lizenz
