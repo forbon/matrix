@@ -66,3 +66,5 @@ Gespeichert unter den LocalStorage-Schlüsseln:
 ## Lizenz
 
 MIT — siehe [LICENSE](./LICENSE).
+
+Lizenzen der verwendeten Drittanbieter-Bibliotheken: [THIRD_PARTY_LICENSES.md](./THIRD_PARTY_LICENSES.md).

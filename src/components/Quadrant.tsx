@@ -14,35 +14,56 @@ const ROMAN: Record<QuadrantId, string> = {
 interface Props {
   id: QuadrantId;
   tasks: Task[];
+  hidden?: boolean;
+  allowDragDrop?: boolean;
   onDropTask: (id: string, target: QuadrantId) => void;
   onAdd: (quadrant: QuadrantId) => void;
   onEdit: (task: Task) => void;
   onDelete: (id: string) => void;
   onToggleComplete: (id: string) => void;
+  onMove: (id: string, target: QuadrantId) => void;
 }
 
-export function Quadrant({ id, tasks, onDropTask, onAdd, onEdit, onDelete, onToggleComplete }: Props) {
+export function Quadrant({
+  id,
+  tasks,
+  hidden = false,
+  allowDragDrop = true,
+  onDropTask,
+  onAdd,
+  onEdit,
+  onDelete,
+  onToggleComplete,
+  onMove,
+}: Props) {
   const { t } = useI18n();
   const [over, setOver] = useState(false);
 
   const titleKey = `quadrant.${id}` as TKey;
   const hintKey = `quadrant.${id}.hint` as TKey;
 
+  const dndProps = allowDragDrop
+    ? {
+        onDragOver: (e: React.DragEvent) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          if (!over) setOver(true);
+        },
+        onDragLeave: () => setOver(false),
+        onDrop: (e: React.DragEvent) => {
+          e.preventDefault();
+          setOver(false);
+          const taskId = e.dataTransfer.getData('text/plain');
+          if (taskId) onDropTask(taskId, id);
+        },
+      }
+    : {};
+
   return (
     <section
-      className={`quadrant quadrant--${id} ${over ? 'quadrant--over' : ''}`}
-      onDragOver={(e) => {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-        if (!over) setOver(true);
-      }}
-      onDragLeave={() => setOver(false)}
-      onDrop={(e) => {
-        e.preventDefault();
-        setOver(false);
-        const taskId = e.dataTransfer.getData('text/plain');
-        if (taskId) onDropTask(taskId, id);
-      }}
+      className={`quadrant quadrant--${id} ${over ? 'quadrant--over' : ''} ${hidden ? 'quadrant--hidden' : ''}`}
+      aria-hidden={hidden || undefined}
+      {...dndProps}
     >
       <span className="quadrant__numeral" aria-hidden="true">{ROMAN[id]}</span>
       <header className="quadrant__header">
@@ -68,9 +89,11 @@ export function Quadrant({ id, tasks, onDropTask, onAdd, onEdit, onDelete, onTog
             <TaskCard
               key={task.id}
               task={task}
+              draggable={allowDragDrop}
               onEdit={onEdit}
               onDelete={onDelete}
               onToggleComplete={onToggleComplete}
+              onMove={onMove}
             />
           ))
         )}

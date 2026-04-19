@@ -128,6 +128,16 @@ export function App() {
           setEditing(undefined);
         }}
       />
+
+      <footer className="colophon">
+        <span>© {now.getFullYear()} Fabian Wessel</span>
+        <span className="colophon__sep">§</span>
+        <span>{t('colophon.licensedUnder')}</span>
+        <span className="colophon__sep">§</span>
+        <a className="colophon__link" href="/licenses.txt" target="_blank" rel="noopener noreferrer">
+          {t('colophon.thirdParty')}
+        </a>
+      </footer>
     </div>
   );
 }

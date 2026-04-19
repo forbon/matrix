@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Task } from '../types';
 import { useI18n } from '../hooks/useI18n';
 import { LanguageSwitcher } from './LanguageSwitcher';
@@ -16,6 +16,27 @@ interface Props {
 export function Toolbar({ tasks, onAdd, onImport, notificationState, onEnableReminders }: Props) {
   const { t } = useI18n();
   const fileInput = useRef<HTMLInputElement>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleAway = (e: MouseEvent | TouchEvent) => {
+      if (!menuRef.current) return;
+      if (!menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+    };
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    document.addEventListener('mousedown', handleAway);
+    document.addEventListener('touchstart', handleAway);
+    document.addEventListener('keydown', handleEsc);
+    return () => {
+      document.removeEventListener('mousedown', handleAway);
+      document.removeEventListener('touchstart', handleAway);
+      document.removeEventListener('keydown', handleEsc);
+    };
+  }, [menuOpen]);
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -39,38 +60,126 @@ export function Toolbar({ tasks, onAdd, onImport, notificationState, onEnableRem
       : notificationState === 'denied'
       ? t('action.remindersDenied')
       : t('action.enableReminders');
+  const reminderDisabled =
+    notificationState === 'granted' ||
+    notificationState === 'denied' ||
+    notificationState === 'unsupported';
 
   return (
-    <div className="toolbar">
-      <button type="button" className="btn btn--primary" onClick={onAdd}>
-        + {t('action.add')}
-      </button>
-      <button type="button" className="btn" onClick={() => exportJSON(tasks)}>
-        {t('action.export.json')}
-      </button>
-      <button type="button" className="btn" onClick={() => exportCSV(tasks)}>
-        {t('action.export.csv')}
-      </button>
-      <button type="button" className="btn" onClick={() => fileInput.current?.click()}>
-        {t('action.import')}
-      </button>
-      <input
-        ref={fileInput}
-        type="file"
-        accept=".json,.csv,application/json,text/csv"
-        style={{ display: 'none' }}
-        onChange={handleFile}
-      />
+    <>
+      <div className="toolbar">
+        <button type="button" className="btn btn--primary toolbar__add" onClick={onAdd}>
+          + {t('action.add')}
+        </button>
+        <div className="toolbar__desktop-items">
+          <button type="button" className="btn" onClick={() => exportJSON(tasks)}>
+            {t('action.export.json')}
+          </button>
+          <button type="button" className="btn" onClick={() => exportCSV(tasks)}>
+            {t('action.export.csv')}
+          </button>
+          <button type="button" className="btn" onClick={() => fileInput.current?.click()}>
+            {t('action.import')}
+          </button>
+          <button
+            type="button"
+            className="btn"
+            onClick={onEnableReminders}
+            disabled={reminderDisabled}
+          >
+            {reminderLabel}
+          </button>
+        </div>
+        <input
+          ref={fileInput}
+          type="file"
+          accept=".json,.csv,application/json,text/csv"
+          style={{ display: 'none' }}
+          onChange={handleFile}
+        />
+        <span className="toolbar__spacer" />
+        <div className="toolbar__desktop-lang">
+          <LanguageSwitcher />
+        </div>
+        <div className="toolbar__mobile-actions" ref={menuRef}>
+          <button
+            type="button"
+            className="btn toolbar__overflow"
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-haspopup="menu"
+            aria-expanded={menuOpen}
+            aria-label={t('action.more')}
+            title={t('action.more')}
+          >
+            ⋯
+          </button>
+          {menuOpen && (
+            <div className="toolbar__menu" role="menu">
+              <button
+                type="button"
+                role="menuitem"
+                className="toolbar__menu-item"
+                onClick={() => {
+                  setMenuOpen(false);
+                  exportJSON(tasks);
+                }}
+              >
+                {t('action.export.json')}
+              </button>
+              <button
+                type="button"
+                role="menuitem"
+                className="toolbar__menu-item"
+                onClick={() => {
+                  setMenuOpen(false);
+                  exportCSV(tasks);
+                }}
+              >
+                {t('action.export.csv')}
+              </button>
+              <button
+                type="button"
+                role="menuitem"
+                className="toolbar__menu-item"
+                onClick={() => {
+                  setMenuOpen(false);
+                  fileInput.current?.click();
+                }}
+              >
+                {t('action.import')}
+              </button>
+              <button
+                type="button"
+                role="menuitem"
+                className="toolbar__menu-item"
+                onClick={() => {
+                  if (reminderDisabled) return;
+                  setMenuOpen(false);
+                  onEnableReminders();
+                }}
+                disabled={reminderDisabled}
+              >
+                {reminderLabel}
+              </button>
+              <div
+                className="toolbar__menu-lang"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <LanguageSwitcher />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
       <button
         type="button"
-        className="btn"
-        onClick={onEnableReminders}
-        disabled={notificationState === 'granted' || notificationState === 'denied' || notificationState === 'unsupported'}
+        className="toolbar__fab"
+        onClick={onAdd}
+        aria-label={t('action.add')}
+        title={t('action.add')}
       >
-        {reminderLabel}
+        +
       </button>
-      <span className="toolbar__spacer" />
-      <LanguageSwitcher />
-    </div>
+    </>
   );
 }

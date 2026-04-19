@@ -33,6 +33,9 @@ const de = {
   'action.enableReminders': 'Erinnerungen aktivieren',
   'action.remindersOn': 'Erinnerungen aktiv',
   'action.remindersDenied': 'Erinnerungen blockiert',
+  'action.more': 'Mehr',
+  'action.moveTo': 'Verschieben',
+  'action.close': 'Schließen',
 
   'form.title': 'Titel',
   'form.description': 'Beschreibung',
@@ -66,6 +69,9 @@ const de = {
   'lang.en': 'English',
 
   'notify.title': 'Aufgabe fällig',
+
+  'colophon.licensedUnder': 'MIT-Lizenz',
+  'colophon.thirdParty': 'Drittanbieter-Lizenzen',
 };
 
 export default de;

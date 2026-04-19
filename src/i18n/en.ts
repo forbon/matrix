@@ -35,6 +35,9 @@ const en: Dict = {
   'action.enableReminders': 'Enable reminders',
   'action.remindersOn': 'Reminders on',
   'action.remindersDenied': 'Reminders blocked',
+  'action.more': 'More',
+  'action.moveTo': 'Move',
+  'action.close': 'Close',
 
   'form.title': 'Title',
   'form.description': 'Description',
@@ -68,6 +71,9 @@ const en: Dict = {
   'lang.en': 'English',
 
   'notify.title': 'Task due',
+
+  'colophon.licensedUnder': 'MIT License',
+  'colophon.thirdParty': 'Third-party licenses',
 };
 
 export default en;

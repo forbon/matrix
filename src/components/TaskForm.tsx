@@ -61,6 +61,15 @@ export function TaskForm({ open, initial, defaultQuadrant, onSubmit, onCancel }:
 
   useEffect(() => {
     if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
     const panel = panelRef.current;
     if (!panel) return;
     const focusable = () =>
@@ -130,6 +139,7 @@ export function TaskForm({ open, initial, defaultQuadrant, onSubmit, onCancel }:
   return (
     <div className="modal" role="dialog" aria-modal="true" aria-labelledby="task-form-title" onClick={onCancel}>
       <form className="modal__panel" ref={panelRef} onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()}>
+        <span className="modal__handle" aria-hidden="true" />
         <h2 id="task-form-title" className="modal__title">{initial ? t('form.editTitle') : t('form.new')}</h2>
 
         <label className="field">
