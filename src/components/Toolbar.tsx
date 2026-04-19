@@ -1,9 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
-import type { Task } from '../types';
+import type { Task, Theme } from '../types';
 import { useI18n } from '../hooks/useI18n';
+import { useTheme } from '../hooks/useTheme';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { exportCSV, exportJSON, importFromFile } from '../lib/importExport';
 import type { NotificationState } from '../lib/notifications';
+
+const THEME_GLYPH: Record<Theme, string> = {
+  light: '☀',
+  dark: '☾',
+  system: '◐',
+};
 
 interface Props {
   tasks: Task[];
@@ -15,9 +22,14 @@ interface Props {
 
 export function Toolbar({ tasks, onAdd, onImport, notificationState, onEnableReminders }: Props) {
   const { t } = useI18n();
+  const { theme, cycleTheme } = useTheme();
   const fileInput = useRef<HTMLInputElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const themeLabel =
+    theme === 'light' ? t('action.theme.light') : theme === 'dark' ? t('action.theme.dark') : t('action.theme.system');
+  const themeTitle = `${t('action.theme.toggle')}: ${themeLabel}`;
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -88,6 +100,16 @@ export function Toolbar({ tasks, onAdd, onImport, notificationState, onEnableRem
             disabled={reminderDisabled}
           >
             {reminderLabel}
+          </button>
+          <button
+            type="button"
+            className="btn toolbar__theme"
+            onClick={cycleTheme}
+            aria-label={themeTitle}
+            title={themeTitle}
+          >
+            <span className="toolbar__theme-glyph" aria-hidden="true">{THEME_GLYPH[theme]}</span>
+            <span className="toolbar__theme-label">{themeLabel}</span>
           </button>
         </div>
         <input
@@ -160,6 +182,17 @@ export function Toolbar({ tasks, onAdd, onImport, notificationState, onEnableRem
                 disabled={reminderDisabled}
               >
                 {reminderLabel}
+              </button>
+              <button
+                type="button"
+                role="menuitem"
+                className="toolbar__menu-item"
+                onClick={() => {
+                  cycleTheme();
+                }}
+              >
+                <span className="toolbar__theme-glyph" aria-hidden="true">{THEME_GLYPH[theme]}</span>
+                {' '}{t('action.theme.toggle')}: {themeLabel}
               </button>
               <div
                 className="toolbar__menu-lang"

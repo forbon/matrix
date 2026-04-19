@@ -11,6 +11,18 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="format-detection" content="telephone=no" />
     <title>Die Matrix — Aufgabenordnung</title>
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('matrix.theme');
+          var theme = stored === 'light' || stored === 'dark' ? stored : null;
+          if (!theme) {
+            theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
