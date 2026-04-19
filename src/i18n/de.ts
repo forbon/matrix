@@ -37,6 +37,10 @@ const de = {
   'action.more': 'Mehr',
   'action.moveTo': 'Verschieben',
   'action.close': 'Schließen',
+  'action.theme.toggle': 'Erscheinungsbild',
+  'action.theme.light': 'Hell',
+  'action.theme.dark': 'Dunkel',
+  'action.theme.system': 'System',
 
   'form.title': 'Titel',
   'form.description': 'Beschreibung',

@@ -1688,6 +1688,203 @@ button { cursor: pointer; touch-action: manipulation; }
   color: var(--ink);
 }
 
+/* ─── theme toggle button (shared light/dark) ───────────────── */
+.toolbar__theme {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.toolbar__theme-glyph {
+  font-size: 14px;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+/* ─── dark theme ────────────────────────────────────────────────
+   "Newsprint at Night" — paper/ink invert, spot inks slightly
+   brightened for the darker ground. Eliminate becomes deeper
+   than paper with a thin ink frame.
+   ───────────────────────────────────────────────────────────── */
+:root[data-theme='dark'] {
+  --paper:       #18161F;
+  --paper-hi:    #23202C;
+  --paper-edge:  #342F40;
+
+  --ink:         #EDE6D6;
+  --ink-soft:    #B8B0A0;
+
+  --pink:        #FF4B97;
+  --pink-deep:   #E53886;
+  --blue:        #4D72FF;
+  --blue-deep:   #2F55F0;
+  --yellow:      #FCDA19;
+  --yellow-deep: #E0BE00;
+}
+
+/* halftone: lighter dots, screen blend on dark ground */
+:root[data-theme='dark'] body::before {
+  background-image:
+    radial-gradient(circle at 1.5px 1.5px, rgba(237, 230, 214, 0.06) 1px, transparent 1.4px);
+  mix-blend-mode: screen;
+  opacity: 0.8;
+}
+
+:root[data-theme='dark'] body::after {
+  opacity: 0.22;
+}
+
+:root[data-theme='dark'] ::selection {
+  background: var(--pink);
+  color: #15131B;
+}
+
+/* surfaces that were "ink on paper" → need a deep surface, not
+   the now-light --ink */
+:root[data-theme='dark'] .toolbar {
+  background: #0E0C14;
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+:root[data-theme='dark'] .toolbar::before {
+  background: var(--paper);
+  color: var(--pink);
+  border-color: var(--ink);
+}
+
+:root[data-theme='dark'] .matrix {
+  background: #0E0C14;
+  border-color: var(--ink);
+}
+
+/* quadrants: preserve dark-on-warm, light-on-cool contrast after
+   the --ink / --paper swap */
+:root[data-theme='dark'] .quadrant--do {
+  color: #15131B;
+}
+
+:root[data-theme='dark'] .quadrant--schedule {
+  color: var(--ink);
+}
+
+:root[data-theme='dark'] .quadrant--delegate {
+  color: #15131B;
+}
+
+:root[data-theme='dark'] .quadrant--eliminate {
+  --spot: var(--ink-soft);
+  --on-spot: var(--ink);
+  background: #0B0910;
+  color: var(--ink);
+  background-image:
+    radial-gradient(circle at 1.2px 1.2px, rgba(237, 230, 214, 0.10) 1px, transparent 1.4px);
+  background-size: 7px 7px;
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+
+:root[data-theme='dark'] .quadrant--over {
+  outline-color: var(--ink);
+}
+:root[data-theme='dark'] .quadrant--eliminate.quadrant--over {
+  outline-color: var(--yellow);
+}
+
+/* mobile tab pills */
+:root[data-theme='dark'] .quadrant-tabs__pill--active.quadrant-tabs__pill--do {
+  color: #15131B;
+}
+:root[data-theme='dark'] .quadrant-tabs__pill--active.quadrant-tabs__pill--schedule {
+  color: var(--ink);
+}
+:root[data-theme='dark'] .quadrant-tabs__pill--active.quadrant-tabs__pill--delegate {
+  color: #15131B;
+}
+:root[data-theme='dark'] .quadrant-tabs__pill--active.quadrant-tabs__pill--eliminate {
+  background: #0B0910;
+  color: var(--ink);
+  box-shadow: 3px 3px 0 0 var(--yellow);
+}
+
+/* axis labels & poles on warm spots need dark text */
+:root[data-theme='dark'] .axis__label {
+  color: #15131B;
+}
+:root[data-theme='dark'] .axis--x .axis__pole--start {
+  color: var(--ink);
+}
+:root[data-theme='dark'] .axis--y .axis__pole--start {
+  color: var(--ink);
+}
+
+/* masthead yellow strong badge */
+:root[data-theme='dark'] .masthead__meta strong {
+  color: #15131B;
+}
+
+/* buttons — keep dark text whenever bg flips to a warm spot */
+:root[data-theme='dark'] .btn--primary {
+  color: #15131B;
+}
+@media (hover: hover) {
+  :root[data-theme='dark'] .btn:hover:not(:disabled),
+  :root[data-theme='dark'] .btn--primary:hover:not(:disabled),
+  :root[data-theme='dark'] .btn--ghost:hover:not(:disabled),
+  :root[data-theme='dark'] .btn--add-link:hover,
+  :root[data-theme='dark'] .task-card__menu-item:hover,
+  :root[data-theme='dark'] .toolbar__menu-item:hover:not(:disabled),
+  :root[data-theme='dark'] .task-link:hover,
+  :root[data-theme='dark'] .task-card input[type='checkbox']:hover {
+    color: #15131B;
+  }
+  :root[data-theme='dark'] .task-card__delete:hover,
+  :root[data-theme='dark'] .link-row__remove:hover,
+  :root[data-theme='dark'] .task-card__move:hover {
+    color: var(--ink);
+  }
+}
+
+/* form inputs focus flips to yellow bg → dark text */
+:root[data-theme='dark'] .field input:focus,
+:root[data-theme='dark'] .field textarea:focus,
+:root[data-theme='dark'] .field select:focus,
+:root[data-theme='dark'] .link-row__url:focus,
+:root[data-theme='dark'] .link-row__label:focus {
+  color: #15131B;
+}
+
+/* language switcher: yellow resting, pink focus */
+:root[data-theme='dark'] .lang-switcher select {
+  color: #15131B;
+}
+:root[data-theme='dark'] .lang-switcher select:focus {
+  color: var(--ink);
+}
+
+/* checkbox tick on pink */
+:root[data-theme='dark'] .task-card input[type='checkbox']:checked::after {
+  color: #15131B;
+}
+
+/* due badges */
+:root[data-theme='dark'] .due-badge.due-overdue { color: var(--ink); }
+:root[data-theme='dark'] .due-badge.due-tomorrow { color: var(--ink); }
+
+/* form error: pink bg with paper text → now dark; use ink */
+:root[data-theme='dark'] .form-error {
+  color: var(--ink);
+}
+
+/* task card completed: lighten slightly from paper-hi for contrast */
+:root[data-theme='dark'] .task-card.completed {
+  background: #1D1B25;
+}
+
+/* modal scrim: deepen for bolder dim */
+:root[data-theme='dark'] .modal {
+  background: rgba(0, 0, 0, 0.72);
+}
+
 /* ─── reduced motion ──────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }

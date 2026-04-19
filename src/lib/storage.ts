@@ -1,8 +1,9 @@
-import type { Task, Lang, QuadrantId } from '../types';
+import type { Task, Lang, QuadrantId, Theme } from '../types';
 import { QUADRANT_IDS } from '../types';
 
 const TASKS_KEY = 'matrix.tasks';
 const LANG_KEY = 'matrix.lang';
+const THEME_KEY = 'matrix.theme';
 
 function isQuadrant(v: unknown): v is QuadrantId {
   return typeof v === 'string' && (QUADRANT_IDS as string[]).includes(v);
@@ -42,4 +43,14 @@ export function loadLang(): Lang {
 
 export function saveLang(lang: Lang): void {
   localStorage.setItem(LANG_KEY, lang);
+}
+
+export function loadTheme(): Theme {
+  const raw = localStorage.getItem(THEME_KEY);
+  if (raw === 'light' || raw === 'dark' || raw === 'system') return raw;
+  return 'system';
+}
+
+export function saveTheme(theme: Theme): void {
+  localStorage.setItem(THEME_KEY, theme);
 }

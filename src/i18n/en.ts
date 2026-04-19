@@ -39,6 +39,10 @@ const en: Dict = {
   'action.more': 'More',
   'action.moveTo': 'Move',
   'action.close': 'Close',
+  'action.theme.toggle': 'Appearance',
+  'action.theme.light': 'Light',
+  'action.theme.dark': 'Dark',
+  'action.theme.system': 'System',
 
   'form.title': 'Title',
   'form.description': 'Description',
