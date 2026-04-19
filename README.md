@@ -62,3 +62,7 @@ Gespeichert unter den LocalStorage-Schlüsseln:
 - `matrix.tasks` — Aufgabenliste (JSON)
 - `matrix.lang` — `de` | `en`
 - `matrix.firedReminders` — bereits ausgelöste Erinnerungs-IDs
+
+## Lizenz
+
+MIT — siehe [LICENSE](./LICENSE).
