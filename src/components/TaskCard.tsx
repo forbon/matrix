@@ -26,9 +26,7 @@ function getHostname(url: string): string {
 function getFaviconUrl(url: string): string {
   const hostname = getHostname(url);
   if (!hostname) return '';
-  if (hostname.includes('jira')) return 'https://icons.duckduckgo.com/ip3/jira.atlassian.com.ico';
-  if (hostname.includes('confluence')) return 'https://icons.duckduckgo.com/ip3/confluence.atlassian.com.ico';
-  return `https://icons.duckduckgo.com/ip3/${hostname}.ico`;
+  return `https://${hostname}/favicon.ico`;
 }
 
 function linkDisplay(url: string, label?: string): string {
