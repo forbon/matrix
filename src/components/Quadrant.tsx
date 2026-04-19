@@ -3,6 +3,7 @@ import type { QuadrantId, Task } from '../types';
 import { useI18n } from '../hooks/useI18n';
 import type { TKey } from '../hooks/useI18n';
 import { TaskCard } from './TaskCard';
+import { densityClass } from '../lib/density';
 
 const ROMAN: Record<QuadrantId, string> = {
   do: 'I',
@@ -81,7 +82,7 @@ export function Quadrant({
           +
         </button>
       </header>
-      <div className="quadrant__list">
+      <div className={`quadrant__list ${densityClass(tasks.length)}`.trim()}>
         {tasks.length === 0 ? (
           <div className="quadrant__empty">{t('task.empty')}</div>
         ) : (
