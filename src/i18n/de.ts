@@ -74,7 +74,6 @@ const de = {
 
   'notify.title': 'Aufgabe fällig',
 
-  'colophon.licensedUnder': 'MIT-Lizenz',
   'colophon.thirdParty': 'Drittanbieter-Lizenzen',
 
   'legal.impressum': 'Impressum',

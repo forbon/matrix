@@ -135,10 +135,12 @@ export function App() {
       <footer className="colophon">
         <span>© {now.getFullYear()} Fabian Wessel</span>
         <span className="colophon__sep">·</span>
-        <span>{t('colophon.licensedUnder')}</span>
-        <span className="colophon__sep">·</span>
         <a className="colophon__link" href="/licenses.txt" target="_blank" rel="noopener noreferrer">
           {t('colophon.thirdParty')}
+        </a>
+        <span className="colophon__sep">·</span>
+        <a className="colophon__link" href="https://github.com/forbon/matrix" target="_blank" rel="noopener noreferrer">
+          GitHub
         </a>
         {window.__MATRIX_CONFIG__?.impressumUrl && isSafeUrl(window.__MATRIX_CONFIG__.impressumUrl) && <>
           <span className="colophon__sep">·</span>

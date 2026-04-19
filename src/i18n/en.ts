@@ -76,7 +76,6 @@ const en: Dict = {
 
   'notify.title': 'Task due',
 
-  'colophon.licensedUnder': 'MIT License',
   'colophon.thirdParty': 'Third-party licenses',
 
   'legal.impressum': 'Impressum',
