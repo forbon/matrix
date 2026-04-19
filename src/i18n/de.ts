@@ -77,6 +77,9 @@ const de = {
 
   'colophon.licensedUnder': 'MIT-Lizenz',
   'colophon.thirdParty': 'Drittanbieter-Lizenzen',
+
+  'legal.impressum': 'Impressum',
+  'legal.privacy': 'Datenschutzerklärung',
 };
 
 export default de;

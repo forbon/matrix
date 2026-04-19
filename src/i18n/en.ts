@@ -79,6 +79,9 @@ const en: Dict = {
 
   'colophon.licensedUnder': 'MIT License',
   'colophon.thirdParty': 'Third-party licenses',
+
+  'legal.impressum': 'Impressum',
+  'legal.privacy': 'Privacy Policy',
 };
 
 export default en;

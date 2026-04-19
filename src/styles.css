@@ -1688,6 +1688,7 @@ button { cursor: pointer; touch-action: manipulation; }
   color: var(--ink);
 }
 
+
 /* ─── theme toggle button (shared light/dark) ───────────────── */
 .toolbar__theme {
   display: inline-flex;

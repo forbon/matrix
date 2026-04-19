@@ -28,6 +28,12 @@ dist-ssr/
 *.sln
 *.sw?
 
+# Personal deployment config (copy from config.example.js)
+public/config.js
+
+# Legal pages with personal data (generated from templates)
+legal/
+
 # OS
 .DS_Store
 Thumbs.db

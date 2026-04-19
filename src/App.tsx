@@ -139,6 +139,18 @@ export function App() {
         <a className="colophon__link" href="/licenses.txt" target="_blank" rel="noopener noreferrer">
           {t('colophon.thirdParty')}
         </a>
+        {window.__MATRIX_CONFIG__?.impressumUrl && <>
+          <span className="colophon__sep">·</span>
+          <a className="colophon__link" href={window.__MATRIX_CONFIG__.impressumUrl} target="_blank" rel="noopener noreferrer">
+            {t('legal.impressum')}
+          </a>
+        </>}
+        {window.__MATRIX_CONFIG__?.privacyUrl && <>
+          <span className="colophon__sep">·</span>
+          <a className="colophon__link" href={window.__MATRIX_CONFIG__.privacyUrl} target="_blank" rel="noopener noreferrer">
+            {t('legal.privacy')}
+          </a>
+        </>}
       </footer>
     </div>
   );
