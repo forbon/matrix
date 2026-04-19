@@ -7,6 +7,7 @@ import { Matrix } from './components/Matrix';
 import { Toolbar } from './components/Toolbar';
 import { TaskForm } from './components/TaskForm';
 import type { TaskFormValues } from './components/TaskForm';
+import { isSafeUrl } from './lib/urls';
 
 function weekOfYear(date: Date): number {
   const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
@@ -139,13 +140,13 @@ export function App() {
         <a className="colophon__link" href="/licenses.txt" target="_blank" rel="noopener noreferrer">
           {t('colophon.thirdParty')}
         </a>
-        {window.__MATRIX_CONFIG__?.impressumUrl && <>
+        {window.__MATRIX_CONFIG__?.impressumUrl && isSafeUrl(window.__MATRIX_CONFIG__.impressumUrl) && <>
           <span className="colophon__sep">·</span>
           <a className="colophon__link" href={window.__MATRIX_CONFIG__.impressumUrl} target="_blank" rel="noopener noreferrer">
             {t('legal.impressum')}
           </a>
         </>}
-        {window.__MATRIX_CONFIG__?.privacyUrl && <>
+        {window.__MATRIX_CONFIG__?.privacyUrl && isSafeUrl(window.__MATRIX_CONFIG__.privacyUrl) && <>
           <span className="colophon__sep">·</span>
           <a className="colophon__link" href={window.__MATRIX_CONFIG__.privacyUrl} target="_blank" rel="noopener noreferrer">
             {t('legal.privacy')}

@@ -113,7 +113,7 @@ export function Toolbar({ tasks, onAdd, onImport, notificationState, onEnableRem
           ref={fileInput}
           type="file"
           accept=".json,.csv,application/json,text/csv"
-          style={{ display: 'none' }}
+          className="toolbar__file-input"
           onChange={handleFile}
         />
         <span className="toolbar__spacer" />

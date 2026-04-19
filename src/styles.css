@@ -1299,6 +1299,10 @@ button { cursor: pointer; touch-action: manipulation; }
   align-items: center;
 }
 
+.toolbar__file-input {
+  display: none;
+}
+
 .toolbar__mobile-actions {
   display: none; /* overridden in mobile MQ */
   position: relative;
