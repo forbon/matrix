@@ -1885,6 +1885,35 @@ button { cursor: pointer; touch-action: manipulation; }
   background: rgba(0, 0, 0, 0.72);
 }
 
+/* toolbar-scoped overrides: elements that used --paper as foreground
+   against the original ink toolbar now sit on a dark surface, so they
+   must flip to --ink to stay visible */
+:root[data-theme='dark'] .toolbar__overflow {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+@media (hover: hover) {
+  :root[data-theme='dark'] .toolbar__overflow:hover:not(:disabled) {
+    background: var(--ink);
+    color: #15131B;
+    border-color: var(--ink);
+  }
+}
+
+:root[data-theme='dark'] .toolbar .lang-switcher {
+  color: var(--ink);
+  border-left-color: rgba(237, 230, 214, 0.35);
+}
+:root[data-theme='dark'] .toolbar .lang-switcher select {
+  border-color: var(--ink);
+  box-shadow: 2px 2px 0 0 var(--ink);
+}
+
+/* mobile menu (paper-hi bg) — inner lang-switcher border-left */
+:root[data-theme='dark'] .toolbar__menu-lang .lang-switcher {
+  border-left-color: rgba(237, 230, 214, 0.25);
+}
+
 /* ─── reduced motion ──────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
