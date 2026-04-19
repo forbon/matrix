@@ -3,6 +3,7 @@ const de = {
   'app.subtitle': 'Aufgaben nach Wichtigkeit und Dringlichkeit ordnen',
   'app.issue': 'Ausgabe',
   'app.volume': 'Band',
+  'app.week': 'KW',
 
   'axis.importance': 'Wichtigkeit',
   'axis.urgency': 'Dringlichkeit',

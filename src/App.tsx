@@ -36,8 +36,10 @@ export function App() {
     month: 'long',
     year: 'numeric',
   });
-  const issueNo = String(weekOfYear(now)).padStart(2, '0');
-  const volumeNo = now.getFullYear() - 2025;
+  const weekNo = String(weekOfYear(now)).padStart(2, '0');
+  const [majorStr, minorStr] = __APP_VERSION__.split('.');
+  const major = Number(majorStr);
+  const minor = Number(minorStr);
 
   const openNew = (quadrant: QuadrantId = 'do') => {
     setEditing(undefined);
@@ -83,9 +85,9 @@ export function App() {
           )}
         </h1>
         <div className="masthead__meta">
-          <span>{t('app.volume')} {volumeNo} <span className="masthead__rule-glyph">§</span> {t('app.issue')} {issueNo}</span>
+          <span>{t('app.volume')} {major} <span className="masthead__rule-glyph">§</span> {t('app.issue')} {minor}</span>
           <br />
-          <strong>{mastheadDate}</strong>
+          <strong>{t('app.week')} {weekNo} <span className="masthead__rule-glyph">§</span> {mastheadDate}</strong>
         </div>
       </header>
 

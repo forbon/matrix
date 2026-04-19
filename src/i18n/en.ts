@@ -5,6 +5,7 @@ const en: Dict = {
   'app.subtitle': 'Ordering tasks by importance and urgency',
   'app.issue': 'Issue',
   'app.volume': 'Vol.',
+  'app.week': 'Wk',
 
   'axis.importance': 'Importance',
   'axis.urgency': 'Urgency',
