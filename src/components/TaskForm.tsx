@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import type { QuadrantId, Task, TaskLink } from '../types';
-import { QUADRANT_IDS } from '../types';
+import type { QuadrantId, Task, TaskLink, TaskState } from '../types';
+import { QUADRANT_IDS, taskState } from '../types';
 import { useI18n } from '../hooks/useI18n';
 import type { TKey } from '../hooks/useI18n';
 import { isSafeUrl } from '../lib/urls';
@@ -8,7 +8,8 @@ import { isSafeUrl } from '../lib/urls';
 export interface TaskFormValues {
   title: string;
   description?: string;
-  quadrant: QuadrantId;
+  quadrant?: QuadrantId;
+  state: TaskState;
   dueDate?: string;
   links?: TaskLink[];
 }
@@ -17,9 +18,13 @@ interface Props {
   open: boolean;
   initial?: Task;
   defaultQuadrant?: QuadrantId;
+  defaultState?: TaskState;
   onSubmit: (values: TaskFormValues, id?: string) => void;
   onCancel: () => void;
 }
+
+type SlotId = QuadrantId | 'backlog';
+const SLOT_OPTIONS: SlotId[] = [...QUADRANT_IDS, 'backlog'];
 
 type LinkRow = { url: string; label: string };
 
@@ -39,11 +44,11 @@ function fromDateInput(value: string): string | undefined {
   return Number.isNaN(d.getTime()) ? undefined : d.toISOString();
 }
 
-export function TaskForm({ open, initial, defaultQuadrant, onSubmit, onCancel }: Props) {
+export function TaskForm({ open, initial, defaultQuadrant, defaultState, onSubmit, onCancel }: Props) {
   const { t } = useI18n();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [quadrant, setQuadrant] = useState<QuadrantId>('do');
+  const [slot, setSlot] = useState<SlotId>('do');
   const [dueDate, setDueDate] = useState('');
   const [links, setLinks] = useState<LinkRow[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -53,11 +58,18 @@ export function TaskForm({ open, initial, defaultQuadrant, onSubmit, onCancel }:
     if (!open) return;
     setTitle(initial?.title ?? '');
     setDescription(initial?.description ?? '');
-    setQuadrant(initial?.quadrant ?? defaultQuadrant ?? 'do');
+    const initialSlot: SlotId = initial
+      ? taskState(initial) === 'backlog'
+        ? 'backlog'
+        : initial.quadrant ?? 'do'
+      : defaultState === 'backlog'
+      ? 'backlog'
+      : defaultQuadrant ?? 'do';
+    setSlot(initialSlot);
     setDueDate(toDateInput(initial?.dueDate));
     setLinks(initial?.links?.map((l) => ({ url: l.url, label: l.label ?? '' })) ?? []);
     setError(null);
-  }, [open, initial, defaultQuadrant]);
+  }, [open, initial, defaultQuadrant, defaultState]);
 
   useEffect(() => {
     if (!open) return;
@@ -124,11 +136,16 @@ export function TaskForm({ open, initial, defaultQuadrant, onSubmit, onCancel }:
     const validLinks = links
       .filter((l) => l.url.trim() && isSafeUrl(l.url.trim()))
       .map((l) => ({ url: l.url.trim(), label: l.label.trim() || undefined }));
+    const isBacklog = slot === 'backlog';
+    const editingArchive = initial && taskState(initial) === 'archived';
+    const state: TaskState = editingArchive ? 'archived' : isBacklog ? 'backlog' : 'active';
+    const quadrant: QuadrantId | undefined = isBacklog ? initial?.quadrant : (slot as QuadrantId);
     onSubmit(
       {
         title: title.trim(),
         description: description.trim() || undefined,
         quadrant,
+        state,
         dueDate: fromDateInput(dueDate),
         links: validLinks.length > 0 ? validLinks : undefined,
       },
@@ -160,13 +177,25 @@ export function TaskForm({ open, initial, defaultQuadrant, onSubmit, onCancel }:
 
         <label className="field">
           <span className="field__label">{t('form.quadrant')}</span>
-          <select value={quadrant} onChange={(e) => setQuadrant(e.target.value as QuadrantId)}>
-            {QUADRANT_IDS.map((id) => (
-              <option key={id} value={id}>
-                {t(`quadrant.${id}` as TKey)}
-              </option>
-            ))}
-          </select>
+          {initial && taskState(initial) === 'archived' ? (
+            <select value="archived" disabled>
+              <option value="archived">{t('form.state.archived')}</option>
+            </select>
+          ) : (
+            <select value={slot} onChange={(e) => setSlot(e.target.value as SlotId)}>
+              {SLOT_OPTIONS.map((id) =>
+                id === 'backlog' ? (
+                  <option key="backlog" value="backlog">
+                    {t('form.state.backlog')}
+                  </option>
+                ) : (
+                  <option key={id} value={id}>
+                    {t(`quadrant.${id}` as TKey)}
+                  </option>
+                ),
+              )}
+            </select>
+          )}
         </label>
 
         <label className="field">

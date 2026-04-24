@@ -23,6 +23,8 @@ interface Props {
   onDelete: (id: string) => void;
   onToggleComplete: (id: string) => void;
   onMove: (id: string, target: QuadrantId) => void;
+  onToBacklog: (id: string) => void;
+  onArchive: (id: string) => void;
 }
 
 export function Quadrant({
@@ -36,6 +38,8 @@ export function Quadrant({
   onDelete,
   onToggleComplete,
   onMove,
+  onToBacklog,
+  onArchive,
 }: Props) {
   const { t } = useI18n();
   const [over, setOver] = useState(false);
@@ -90,11 +94,14 @@ export function Quadrant({
             <TaskCard
               key={task.id}
               task={task}
+              variant="matrix"
               draggable={allowDragDrop}
               onEdit={onEdit}
               onDelete={onDelete}
               onToggleComplete={onToggleComplete}
               onMove={onMove}
+              onToBacklog={onToBacklog}
+              onArchive={onArchive}
             />
           ))
         )}

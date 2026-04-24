@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { QuadrantId, Task } from '../types';
+import type { QuadrantId, Task, TaskState } from '../types';
+import { taskState } from '../types';
 import { loadTasks, saveTasks } from '../lib/storage';
 
 function uid(): string {
@@ -12,7 +13,8 @@ function uid(): string {
 export interface NewTaskInput {
   title: string;
   description?: string;
-  quadrant: QuadrantId;
+  quadrant?: QuadrantId;
+  state?: TaskState;
   dueDate?: string;
 }
 
@@ -24,11 +26,13 @@ export function useTasks() {
   }, [tasks]);
 
   const add = useCallback((input: NewTaskInput) => {
+    const state: TaskState = input.state ?? 'active';
     const task: Task = {
       id: uid(),
       title: input.title.trim(),
       description: input.description?.trim() || undefined,
       quadrant: input.quadrant,
+      state,
       dueDate: input.dueDate || undefined,
       createdAt: new Date().toISOString(),
       completed: false,
@@ -46,12 +50,58 @@ export function useTasks() {
   }, []);
 
   const move = useCallback((id: string, quadrant: QuadrantId) => {
-    setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, quadrant } : t)));
+    setTasks((prev) =>
+      prev.map((t) =>
+        t.id === id ? { ...t, quadrant, state: 'active', archivedAt: undefined } : t,
+      ),
+    );
   }, []);
 
   const toggleComplete = useCallback((id: string) => {
     setTasks((prev) =>
       prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)),
+    );
+  }, []);
+
+  const toBacklog = useCallback((id: string) => {
+    setTasks((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, state: 'backlog', archivedAt: undefined } : t)),
+    );
+  }, []);
+
+  const toArchive = useCallback((id: string) => {
+    const now = new Date().toISOString();
+    setTasks((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, state: 'archived', archivedAt: now } : t)),
+    );
+  }, []);
+
+  const restore = useCallback((id: string) => {
+    setTasks((prev) =>
+      prev.map((t) => {
+        if (t.id !== id) return t;
+        const quadrant = t.quadrant ?? 'do';
+        return { ...t, state: 'active', quadrant, archivedAt: undefined };
+      }),
+    );
+  }, []);
+
+  const promoteFromBacklog = useCallback((id: string, quadrant: QuadrantId) => {
+    setTasks((prev) =>
+      prev.map((t) =>
+        t.id === id ? { ...t, state: 'active', quadrant, archivedAt: undefined } : t,
+      ),
+    );
+  }, []);
+
+  const archiveAllCompleted = useCallback(() => {
+    const now = new Date().toISOString();
+    setTasks((prev) =>
+      prev.map((t) =>
+        t.completed && taskState(t) === 'active'
+          ? { ...t, state: 'archived', archivedAt: now }
+          : t,
+      ),
     );
   }, []);
 
@@ -67,5 +117,19 @@ export function useTasks() {
     });
   }, []);
 
-  return { tasks, add, update, remove, move, toggleComplete, replaceAll, mergeMany };
+  return {
+    tasks,
+    add,
+    update,
+    remove,
+    move,
+    toggleComplete,
+    toBacklog,
+    toArchive,
+    restore,
+    promoteFromBacklog,
+    archiveAllCompleted,
+    replaceAll,
+    mergeMany,
+  };
 }

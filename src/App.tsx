@@ -1,13 +1,18 @@
-import { useEffect, useState } from 'react';
-import type { QuadrantId, Task } from './types';
+import { useEffect, useMemo, useState } from 'react';
+import type { QuadrantId, Task, TaskState } from './types';
+import { taskState } from './types';
 import { useTasks } from './hooks/useTasks';
 import { useReminders } from './hooks/useReminders';
 import { useI18n } from './hooks/useI18n';
 import { Matrix } from './components/Matrix';
+import { BacklogPanel } from './components/BacklogPanel';
+import { ArchiveList } from './components/ArchiveList';
 import { Toolbar } from './components/Toolbar';
+import type { ViewId } from './components/Toolbar';
 import { TaskForm } from './components/TaskForm';
 import type { TaskFormValues } from './components/TaskForm';
 import { isSafeUrl } from './lib/urls';
+import { loadBacklogCollapsed, saveBacklogCollapsed } from './lib/storage';
 
 function weekOfYear(date: Date): number {
   const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
@@ -19,12 +24,45 @@ function weekOfYear(date: Date): number {
 
 export function App() {
   const { t, lang } = useI18n();
-  const { tasks, add, update, remove, move, toggleComplete, replaceAll, mergeMany } = useTasks();
+  const {
+    tasks,
+    add,
+    update,
+    remove,
+    move,
+    toggleComplete,
+    toBacklog,
+    toArchive,
+    restore,
+    promoteFromBacklog,
+    replaceAll,
+    mergeMany,
+  } = useTasks();
   const { state: notificationState, enable: enableReminders } = useReminders(tasks);
 
+  const [view, setView] = useState<ViewId>('matrix');
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Task | undefined>();
   const [defaultQuadrant, setDefaultQuadrant] = useState<QuadrantId>('do');
+  const [defaultState, setDefaultState] = useState<TaskState>('active');
+  const [backlogCollapsed, setBacklogCollapsed] = useState<boolean>(() => loadBacklogCollapsed());
+
+  useEffect(() => {
+    saveBacklogCollapsed(backlogCollapsed);
+  }, [backlogCollapsed]);
+
+  const { activeTasks, backlogTasks, archiveTasks } = useMemo(() => {
+    const a: Task[] = [];
+    const b: Task[] = [];
+    const z: Task[] = [];
+    for (const t of tasks) {
+      const s = taskState(t);
+      if (s === 'backlog') b.push(t);
+      else if (s === 'archived') z.push(t);
+      else a.push(t);
+    }
+    return { activeTasks: a, backlogTasks: b, archiveTasks: z };
+  }, [tasks]);
 
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
@@ -45,6 +83,20 @@ export function App() {
   const openNew = (quadrant: QuadrantId = 'do') => {
     setEditing(undefined);
     setDefaultQuadrant(quadrant);
+    setDefaultState('active');
+    setFormOpen(true);
+  };
+
+  const openNewForCurrentView = () => {
+    setEditing(undefined);
+    setDefaultQuadrant('do');
+    setDefaultState('active');
+    setFormOpen(true);
+  };
+
+  const openNewInBacklog = () => {
+    setEditing(undefined);
+    setDefaultState('backlog');
     setFormOpen(true);
   };
 
@@ -54,8 +106,18 @@ export function App() {
   };
 
   const handleSubmit = (values: TaskFormValues, id?: string) => {
-    if (id) update(id, values);
-    else add(values);
+    if (id) {
+      update(id, {
+        title: values.title,
+        description: values.description,
+        quadrant: values.quadrant,
+        state: values.state,
+        dueDate: values.dueDate,
+        links: values.links,
+      });
+    } else {
+      add(values);
+    }
     setFormOpen(false);
     setEditing(undefined);
   };
@@ -94,37 +156,69 @@ export function App() {
 
       <Toolbar
         tasks={tasks}
-        onAdd={() => openNew('do')}
+        view={view}
+        onViewChange={setView}
+        archiveCount={archiveTasks.length}
+        onAdd={openNewForCurrentView}
         onImport={handleImport}
         notificationState={notificationState}
         onEnableReminders={() => void enableReminders()}
       />
 
-      <div className="matrix-frame">
-        <div className="axis axis--x" aria-hidden="true">
-          <span className="axis__pole axis__pole--start">{t('axis.urgency.high')}</span>
-          <span className="axis__label">{t('axis.urgency')}</span>
-          <span className="axis__pole axis__pole--end">{t('axis.urgency.low')}</span>
+      {view === 'matrix' && (
+        <div className={`workspace ${backlogCollapsed ? 'workspace--backlog-collapsed' : ''}`}>
+          <div className="matrix-frame">
+            <div className="axis axis--x" aria-hidden="true">
+              <span className="axis__pole axis__pole--start">{t('axis.urgency.high')}</span>
+              <span className="axis__label">{t('axis.urgency')}</span>
+              <span className="axis__pole axis__pole--end">{t('axis.urgency.low')}</span>
+            </div>
+            <div className="axis axis--y" aria-hidden="true">
+              <span className="axis__pole axis__pole--start">{t('axis.importance.high')}</span>
+              <span className="axis__label">{t('axis.importance')}</span>
+              <span className="axis__pole axis__pole--end">{t('axis.importance.low')}</span>
+            </div>
+            <Matrix
+              tasks={activeTasks}
+              onDropTask={move}
+              onAdd={openNew}
+              onEdit={openEdit}
+              onDelete={remove}
+              onToggleComplete={toggleComplete}
+              onToBacklog={toBacklog}
+              onArchive={toArchive}
+            />
+          </div>
+          <BacklogPanel
+            tasks={backlogTasks}
+            collapsed={backlogCollapsed}
+            onToggleCollapsed={() => setBacklogCollapsed((v) => !v)}
+            onAdd={openNewInBacklog}
+            onEdit={openEdit}
+            onDelete={remove}
+            onArchive={toArchive}
+            onPromote={promoteFromBacklog}
+            onDropFromMatrix={toBacklog}
+          />
         </div>
-        <div className="axis axis--y" aria-hidden="true">
-          <span className="axis__pole axis__pole--start">{t('axis.importance.high')}</span>
-          <span className="axis__label">{t('axis.importance')}</span>
-          <span className="axis__pole axis__pole--end">{t('axis.importance.low')}</span>
+      )}
+
+      {view === 'archive' && (
+        <div className="stack-frame">
+          <ArchiveList
+            tasks={archiveTasks}
+            onEdit={openEdit}
+            onDelete={remove}
+            onRestore={restore}
+          />
         </div>
-        <Matrix
-          tasks={tasks}
-          onDropTask={move}
-          onAdd={openNew}
-          onEdit={openEdit}
-          onDelete={remove}
-          onToggleComplete={toggleComplete}
-        />
-      </div>
+      )}
 
       <TaskForm
         open={formOpen}
         initial={editing}
         defaultQuadrant={defaultQuadrant}
+        defaultState={defaultState}
         onSubmit={handleSubmit}
         onCancel={() => {
           setFormOpen(false);

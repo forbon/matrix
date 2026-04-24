@@ -12,6 +12,8 @@ interface Props {
   onEdit: (task: Task) => void;
   onDelete: (id: string) => void;
   onToggleComplete: (id: string) => void;
+  onToBacklog: (id: string) => void;
+  onArchive: (id: string) => void;
 }
 
 export function Matrix(props: Props) {
@@ -37,6 +39,8 @@ export function Matrix(props: Props) {
             onDelete={props.onDelete}
             onToggleComplete={props.onToggleComplete}
             onMove={props.onDropTask}
+            onToBacklog={props.onToBacklog}
+            onArchive={props.onArchive}
           />
         ))}
       </div>

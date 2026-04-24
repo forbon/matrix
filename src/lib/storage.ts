@@ -1,23 +1,30 @@
-import type { Task, Lang, QuadrantId, Theme } from '../types';
+import type { Task, Lang, QuadrantId, TaskState, Theme } from '../types';
 import { QUADRANT_IDS } from '../types';
 
 const TASKS_KEY = 'matrix.tasks';
 const LANG_KEY = 'matrix.lang';
 const THEME_KEY = 'matrix.theme';
+const BACKLOG_COLLAPSED_KEY = 'matrix.backlogCollapsed';
+
+const TASK_STATES: TaskState[] = ['active', 'backlog', 'archived'];
 
 function isQuadrant(v: unknown): v is QuadrantId {
   return typeof v === 'string' && (QUADRANT_IDS as string[]).includes(v);
 }
 
+function isTaskState(v: unknown): v is TaskState {
+  return typeof v === 'string' && (TASK_STATES as string[]).includes(v);
+}
+
 export function isValidTask(v: unknown): v is Task {
   if (!v || typeof v !== 'object') return false;
   const t = v as Record<string, unknown>;
-  return (
-    typeof t.id === 'string' &&
-    typeof t.title === 'string' &&
-    isQuadrant(t.quadrant) &&
-    typeof t.createdAt === 'string'
-  );
+  if (typeof t.id !== 'string' || typeof t.title !== 'string' || typeof t.createdAt !== 'string') {
+    return false;
+  }
+  if (t.quadrant !== undefined && !isQuadrant(t.quadrant)) return false;
+  if (t.state !== undefined && !isTaskState(t.state)) return false;
+  return true;
 }
 
 export function loadTasks(): Task[] {
@@ -53,4 +60,12 @@ export function loadTheme(): Theme {
 
 export function saveTheme(theme: Theme): void {
   localStorage.setItem(THEME_KEY, theme);
+}
+
+export function loadBacklogCollapsed(): boolean {
+  return localStorage.getItem(BACKLOG_COLLAPSED_KEY) === '1';
+}
+
+export function saveBacklogCollapsed(collapsed: boolean): void {
+  localStorage.setItem(BACKLOG_COLLAPSED_KEY, collapsed ? '1' : '0');
 }

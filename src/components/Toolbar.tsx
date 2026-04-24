@@ -12,15 +12,29 @@ const THEME_GLYPH: Record<Theme, string> = {
   system: '◐',
 };
 
+export type ViewId = 'matrix' | 'archive';
+
 interface Props {
   tasks: Task[];
+  view: ViewId;
+  onViewChange: (view: ViewId) => void;
+  archiveCount: number;
   onAdd: () => void;
   onImport: (incoming: Task[]) => void;
   notificationState: NotificationState;
   onEnableReminders: () => void;
 }
 
-export function Toolbar({ tasks, onAdd, onImport, notificationState, onEnableReminders }: Props) {
+export function Toolbar({
+  tasks,
+  view,
+  onViewChange,
+  archiveCount,
+  onAdd,
+  onImport,
+  notificationState,
+  onEnableReminders,
+}: Props) {
   const { t } = useI18n();
   const { theme, cycleTheme } = useTheme();
   const fileInput = useRef<HTMLInputElement>(null);
@@ -77,8 +91,33 @@ export function Toolbar({ tasks, onAdd, onImport, notificationState, onEnableRem
     notificationState === 'denied' ||
     notificationState === 'unsupported';
 
+  const viewTabs: { id: ViewId; labelKey: 'view.matrix' | 'view.archive'; count?: number }[] = [
+    { id: 'matrix', labelKey: 'view.matrix' },
+    { id: 'archive', labelKey: 'view.archive', count: archiveCount },
+  ];
+
   return (
     <>
+      <nav className="view-tabs" role="tablist" aria-label={t('view.matrix')}>
+        {viewTabs.map((tab) => {
+          const isActive = tab.id === view;
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              className={`view-tabs__tab ${isActive ? 'view-tabs__tab--active' : ''}`}
+              onClick={() => onViewChange(tab.id)}
+            >
+              <span className="view-tabs__label">{t(tab.labelKey)}</span>
+              {tab.count !== undefined && tab.count > 0 && (
+                <span className="view-tabs__count">{tab.count}</span>
+              )}
+            </button>
+          );
+        })}
+      </nav>
       <div className="toolbar">
         <button type="button" className="btn btn--primary toolbar__add" onClick={onAdd}>
           + {t('action.add')}
