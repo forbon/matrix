@@ -32,7 +32,7 @@ const en: Dict = {
   'action.confirmDelete': 'Click again to confirm',
   'action.save': 'Save',
   'action.cancel': 'Cancel',
-  'action.export.json': 'Export JSON',
+  'action.export.json': 'Export',
   'action.import': 'Import',
   'action.enableReminders': 'Enable reminders',
   'action.remindersOn': 'Reminders on',

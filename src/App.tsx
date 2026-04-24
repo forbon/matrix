@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import type { QuadrantId, Task, TaskState } from './types';
 import { taskState } from './types';
 import { useTasks } from './hooks/useTasks';
-import { useReminders } from './hooks/useReminders';
 import { useI18n } from './hooks/useI18n';
 import { Matrix } from './components/Matrix';
 import { BacklogPanel } from './components/BacklogPanel';
@@ -38,7 +37,6 @@ export function App() {
     replaceAll,
     mergeMany,
   } = useTasks();
-  const { state: notificationState, enable: enableReminders } = useReminders(tasks);
 
   const [view, setView] = useState<ViewId>('matrix');
   const [formOpen, setFormOpen] = useState(false);
@@ -46,6 +44,7 @@ export function App() {
   const [defaultQuadrant, setDefaultQuadrant] = useState<QuadrantId>('do');
   const [defaultState, setDefaultState] = useState<TaskState>('active');
   const [backlogCollapsed, setBacklogCollapsed] = useState<boolean>(() => loadBacklogCollapsed());
+  const [archiveDropOver, setArchiveDropOver] = useState(false);
 
   useEffect(() => {
     saveBacklogCollapsed(backlogCollapsed);
@@ -147,15 +146,48 @@ export function App() {
         </div>
       </header>
 
+      <nav className="view-nav" role="tablist" aria-label={t('nav.views')}>
+        <span className="view-nav__prefix" aria-hidden="true">▸</span>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={view === 'matrix'}
+          className={`view-nav__link ${view === 'matrix' ? 'view-nav__link--active' : ''}`}
+          onClick={() => setView('matrix')}
+        >
+          {t('view.matrix')}
+        </button>
+        <span className="view-nav__sep" aria-hidden="true">·</span>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={view === 'archive'}
+          className={`view-nav__link ${view === 'archive' ? 'view-nav__link--active' : ''} ${archiveDropOver ? 'view-nav__link--drop-over' : ''}`}
+          onClick={() => setView('archive')}
+          onDragOver={(e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            if (!archiveDropOver) setArchiveDropOver(true);
+          }}
+          onDragLeave={() => setArchiveDropOver(false)}
+          onDrop={(e) => {
+            e.preventDefault();
+            setArchiveDropOver(false);
+            const taskId = e.dataTransfer.getData('text/plain');
+            if (taskId) toArchive(taskId);
+          }}
+        >
+          {t('view.archive')}
+          {archiveTasks.length > 0 && (
+            <span className="view-nav__count">{archiveTasks.length}</span>
+          )}
+        </button>
+      </nav>
+
       <Toolbar
         tasks={tasks}
-        view={view}
-        onViewChange={setView}
-        archiveCount={archiveTasks.length}
         onAdd={() => openNew()}
         onImport={handleImport}
-        notificationState={notificationState}
-        onEnableReminders={() => void enableReminders()}
       />
 
       {view === 'matrix' && (

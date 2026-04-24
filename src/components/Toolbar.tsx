@@ -4,7 +4,6 @@ import { useI18n } from '../hooks/useI18n';
 import { useTheme } from '../hooks/useTheme';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { exportJSON, importFromFile } from '../lib/importExport';
-import type { NotificationState } from '../lib/notifications';
 
 const THEME_GLYPH: Record<Theme, string> = {
   light: '☀',
@@ -16,24 +15,14 @@ export type ViewId = 'matrix' | 'archive';
 
 interface Props {
   tasks: Task[];
-  view: ViewId;
-  onViewChange: (view: ViewId) => void;
-  archiveCount: number;
   onAdd: () => void;
   onImport: (incoming: Task[]) => void;
-  notificationState: NotificationState;
-  onEnableReminders: () => void;
 }
 
 export function Toolbar({
   tasks,
-  view,
-  onViewChange,
-  archiveCount,
   onAdd,
   onImport,
-  notificationState,
-  onEnableReminders,
 }: Props) {
   const { t } = useI18n();
   const { theme, cycleTheme } = useTheme();
@@ -80,48 +69,13 @@ export function Toolbar({
     }
   };
 
-  const reminderLabel =
-    notificationState === 'granted'
-      ? t('action.remindersOn')
-      : notificationState === 'denied'
-      ? t('action.remindersDenied')
-      : t('action.enableReminders');
-  const reminderDisabled =
-    notificationState === 'granted' ||
-    notificationState === 'denied' ||
-    notificationState === 'unsupported';
-
-  const viewTabs: { id: ViewId; labelKey: 'view.matrix' | 'view.archive'; count?: number }[] = [
-    { id: 'matrix', labelKey: 'view.matrix' },
-    { id: 'archive', labelKey: 'view.archive', count: archiveCount },
-  ];
-
   return (
     <>
-      <nav className="view-tabs" role="tablist" aria-label={t('nav.views')}>
-        {viewTabs.map((tab) => {
-          const isActive = tab.id === view;
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              role="tab"
-              aria-selected={isActive}
-              className={`view-tabs__tab ${isActive ? 'view-tabs__tab--active' : ''}`}
-              onClick={() => onViewChange(tab.id)}
-            >
-              <span className="view-tabs__label">{t(tab.labelKey)}</span>
-              {tab.count !== undefined && tab.count > 0 && (
-                <span className="view-tabs__count">{tab.count}</span>
-              )}
-            </button>
-          );
-        })}
-      </nav>
       <div className="toolbar">
         <button type="button" className="btn btn--primary toolbar__add" onClick={onAdd}>
           + {t('action.add')}
         </button>
+        <span className="toolbar__spacer" />
         <div className="toolbar__desktop-items">
           <button type="button" className="btn" onClick={() => exportJSON(tasks)}>
             {t('action.export.json')}
@@ -129,14 +83,8 @@ export function Toolbar({
           <button type="button" className="btn" onClick={() => fileInput.current?.click()}>
             {t('action.import')}
           </button>
-          <button
-            type="button"
-            className="btn"
-            onClick={onEnableReminders}
-            disabled={reminderDisabled}
-          >
-            {reminderLabel}
-          </button>
+        </div>
+        <div className="toolbar__desktop-right">
           <button
             type="button"
             className="btn toolbar__theme"
@@ -147,6 +95,7 @@ export function Toolbar({
             <span className="toolbar__theme-glyph" aria-hidden="true">{THEME_GLYPH[theme]}</span>
             <span className="toolbar__theme-label">{themeLabel}</span>
           </button>
+          <LanguageSwitcher />
         </div>
         <input
           ref={fileInput}
@@ -155,10 +104,6 @@ export function Toolbar({
           className="toolbar__file-input"
           onChange={handleFile}
         />
-        <span className="toolbar__spacer" />
-        <div className="toolbar__desktop-lang">
-          <LanguageSwitcher />
-        </div>
         <div className="toolbar__mobile-actions" ref={menuRef}>
           <button
             type="button"
@@ -194,19 +139,6 @@ export function Toolbar({
                 }}
               >
                 {t('action.import')}
-              </button>
-              <button
-                type="button"
-                role="menuitem"
-                className="toolbar__menu-item"
-                onClick={() => {
-                  if (reminderDisabled) return;
-                  setMenuOpen(false);
-                  onEnableReminders();
-                }}
-                disabled={reminderDisabled}
-              >
-                {reminderLabel}
               </button>
               <button
                 type="button"
