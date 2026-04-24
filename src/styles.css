@@ -1756,8 +1756,10 @@ button { cursor: pointer; touch-action: manipulation; }
   flex-direction: column;
   min-height: 300px;
   background: var(--paper-hi);
-  border: 2px solid var(--ink);
-  box-shadow: 5px 5px 0 0 var(--ink);
+  border: 3px solid var(--ink);
+  box-shadow:
+    8px 8px 0 0 var(--yellow),
+    8px 8px 0 3px var(--ink);
   background-image:
     radial-gradient(circle at 1.2px 1.2px, rgba(17, 17, 16, 0.08) 1px, transparent 1.4px);
   background-size: 9px 9px;
