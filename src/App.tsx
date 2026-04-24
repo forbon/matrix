@@ -87,13 +87,6 @@ export function App() {
     setFormOpen(true);
   };
 
-  const openNewForCurrentView = () => {
-    setEditing(undefined);
-    setDefaultQuadrant('do');
-    setDefaultState('active');
-    setFormOpen(true);
-  };
-
   const openNewInBacklog = () => {
     setEditing(undefined);
     setDefaultState('backlog');
@@ -159,7 +152,7 @@ export function App() {
         view={view}
         onViewChange={setView}
         archiveCount={archiveTasks.length}
-        onAdd={openNewForCurrentView}
+        onAdd={() => openNew()}
         onImport={handleImport}
         notificationState={notificationState}
         onEnableReminders={() => void enableReminders()}

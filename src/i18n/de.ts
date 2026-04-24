@@ -53,6 +53,7 @@ const de = {
   'view.matrix': 'Matrix',
   'view.backlog': 'Backlog',
   'view.archive': 'Archiv',
+  'nav.views': 'Ansicht',
 
   'backlog.empty': 'Backlog ist leer',
   'archive.empty': 'Archiv ist leer',

@@ -247,7 +247,7 @@ export function TaskCard({
                       ))}
                     </>
                   )}
-                  {(variant === 'matrix' || variant === 'backlog') && onToBacklog && variant === 'matrix' && (
+                  {variant === 'matrix' && onToBacklog && (
                     <>
                       <div className="task-card__menu-sep" aria-hidden="true" />
                       <button

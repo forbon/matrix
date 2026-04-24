@@ -98,7 +98,7 @@ export function Toolbar({
 
   return (
     <>
-      <nav className="view-tabs" role="tablist" aria-label={t('view.matrix')}>
+      <nav className="view-tabs" role="tablist" aria-label={t('nav.views')}>
         {viewTabs.map((tab) => {
           const isActive = tab.id === view;
           return (
@@ -151,7 +151,7 @@ export function Toolbar({
         <input
           ref={fileInput}
           type="file"
-          accept=".json,.csv,application/json,text/csv"
+          accept=".json,application/json"
           className="toolbar__file-input"
           onChange={handleFile}
         />

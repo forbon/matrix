@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { QuadrantId, Task, TaskState } from '../types';
-import { taskState } from '../types';
 import { loadTasks, saveTasks } from '../lib/storage';
 
 function uid(): string {
@@ -80,8 +79,8 @@ export function useTasks() {
     setTasks((prev) =>
       prev.map((t) => {
         if (t.id !== id) return t;
-        const quadrant = t.quadrant ?? 'do';
-        return { ...t, state: 'active', quadrant, archivedAt: undefined };
+        const state: TaskState = t.quadrant ? 'active' : 'backlog';
+        return { ...t, state, archivedAt: undefined };
       }),
     );
   }, []);
@@ -90,17 +89,6 @@ export function useTasks() {
     setTasks((prev) =>
       prev.map((t) =>
         t.id === id ? { ...t, state: 'active', quadrant, archivedAt: undefined } : t,
-      ),
-    );
-  }, []);
-
-  const archiveAllCompleted = useCallback(() => {
-    const now = new Date().toISOString();
-    setTasks((prev) =>
-      prev.map((t) =>
-        t.completed && taskState(t) === 'active'
-          ? { ...t, state: 'archived', archivedAt: now }
-          : t,
       ),
     );
   }, []);
@@ -128,7 +116,6 @@ export function useTasks() {
     toArchive,
     restore,
     promoteFromBacklog,
-    archiveAllCompleted,
     replaceAll,
     mergeMany,
   };

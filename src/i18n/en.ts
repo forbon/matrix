@@ -55,10 +55,11 @@ const en: Dict = {
   'view.matrix': 'Matrix',
   'view.backlog': 'Backlog',
   'view.archive': 'Archive',
+  'nav.views': 'View',
 
   'backlog.empty': 'Backlog is empty',
   'archive.empty': 'Archive is empty',
-  'archive.dateLabel': 'Archived',
+  'archive.dateLabel': 'Archived on',
   'backlog.hint': 'Unsorted tasks',
   'archive.hint': 'Tasks removed from the matrix',
 
