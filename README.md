@@ -10,7 +10,7 @@ Eine browserbasierte Matrix-Anwendung zur Priorisierung von Aufgaben nach **Wich
   - *Delegieren* (nicht wichtig, dringend)
   - *Eliminieren* (weder noch)
 - **Aufgaben** anlegen, bearbeiten, abhaken, löschen
-- **Links** pro Aufgabe (mit automatischem Favicon)
+- **Links** pro Aufgabe
 - **Fälligkeitsdatum** mit visuellen Markern (überfällig / heute / morgen)
 - **Browser-Benachrichtigungen** bei fälligen Aufgaben (optional)
 - **Import/Export** als JSON oder CSV
