@@ -265,13 +265,13 @@ export function App() {
         </a>
         {window.__MATRIX_CONFIG__?.impressumUrl && isSafeUrl(window.__MATRIX_CONFIG__.impressumUrl) && <>
           <span className="colophon__sep">·</span>
-          <a className="colophon__link" href={window.__MATRIX_CONFIG__.impressumUrl} target="_blank" rel="noopener noreferrer">
+          <a className="colophon__link" href={window.__MATRIX_CONFIG__.impressumUrl}>
             {t('legal.impressum')}
           </a>
         </>}
         {window.__MATRIX_CONFIG__?.privacyUrl && isSafeUrl(window.__MATRIX_CONFIG__.privacyUrl) && <>
           <span className="colophon__sep">·</span>
-          <a className="colophon__link" href={window.__MATRIX_CONFIG__.privacyUrl} target="_blank" rel="noopener noreferrer">
+          <a className="colophon__link" href={window.__MATRIX_CONFIG__.privacyUrl}>
             {t('legal.privacy')}
           </a>
         </>}
