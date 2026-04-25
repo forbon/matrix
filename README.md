@@ -41,7 +41,7 @@ Sind die URLs gesetzt, erscheinen die Links im Footer der App. Fehlt die Datei o
 
 ### Docker
 
-Im Container wird `config.js` als Read-only-Volume gemountet:
+Im Container wird `config.js` als Read-only-Volume gemountet. Optional lassen sich auch eigene Impressums- und Datenschutz-Seiten mit demselben Pattern als statische HTML-Dateien servieren — `config.js` zeigt dann auf relative Pfade (`/impressum.html`, `/datenschutz.html`):
 
 ```yaml
 services:
@@ -49,11 +49,14 @@ services:
     image: ghcr.io/forbon/matrix:latest
     volumes:
       - ./config.js:/usr/share/nginx/html/config.js:ro
+      # Optional: eigene Legal-Seiten unter derselben Domain ausliefern
+      - ./impressum.html:/usr/share/nginx/html/impressum.html:ro
+      - ./datenschutz.html:/usr/share/nginx/html/datenschutz.html:ro
     environment:
       - VIRTUAL_HOST=matrix.example.de
 ```
 
-Die `config.js` liegt neben der `docker-compose.yml` auf dem Server und benötigt Standardrechte (`644`).
+`config.js` liegt neben der `docker-compose.yml` auf dem Server und benötigt Standardrechte (`644`). Wenn du keine Legal-Mounts setzt, kannst du in `config.js` weiterhin auf extern gehostete Seiten verweisen — beide Wege werden unterstützt.
 
 ## Entwicklung
 
