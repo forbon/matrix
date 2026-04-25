@@ -356,7 +356,7 @@ button { cursor: pointer; touch-action: manipulation; }
   right: 18px;
   font-size: 10px;
   letter-spacing: 2px;
-  color: var(--pink);
+  color: var(--ink);
   background: var(--paper);
   padding: 0 6px;
   line-height: 1;
@@ -551,7 +551,7 @@ button { cursor: pointer; touch-action: manipulation; }
 
 .axis--x .axis__pole--start {
   background: var(--pink);
-  color: var(--paper);
+  color: var(--ink);
 }
 .axis--x .axis__pole--end {
   background: var(--paper);
@@ -1197,7 +1197,6 @@ button { cursor: pointer; touch-action: manipulation; }
 .field input::placeholder,
 .field textarea::placeholder {
   color: var(--ink-soft);
-  opacity: 0.45;
   font-style: italic;
 }
 
@@ -1267,7 +1266,6 @@ button { cursor: pointer; touch-action: manipulation; }
 .link-row__url::placeholder,
 .link-row__label::placeholder {
   color: var(--ink-soft);
-  opacity: 0.45;
   font-style: italic;
 }
 
@@ -2383,7 +2381,7 @@ button { cursor: pointer; touch-action: manipulation; }
 }
 
 .colophon__sep {
-  opacity: 0.4;
+  color: var(--ink-soft);
 }
 
 .colophon__link {
@@ -2521,7 +2519,7 @@ button { cursor: pointer; touch-action: manipulation; }
   color: #15131B;
 }
 :root[data-theme='dark'] .axis--x .axis__pole--start {
-  color: var(--ink);
+  color: #15131B;
 }
 :root[data-theme='dark'] .axis--y .axis__pole--start {
   color: var(--ink);

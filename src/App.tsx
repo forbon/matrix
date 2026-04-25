@@ -190,54 +190,56 @@ export function App() {
         onImport={handleImport}
       />
 
-      {view === 'matrix' && (
-        <div className={`workspace ${backlogCollapsed ? 'workspace--backlog-collapsed' : ''}`}>
-          <div className="matrix-frame">
-            <div className="axis axis--x" aria-hidden="true">
-              <span className="axis__pole axis__pole--start">{t('axis.urgency.high')}</span>
-              <span className="axis__label">{t('axis.urgency')}</span>
-              <span className="axis__pole axis__pole--end">{t('axis.urgency.low')}</span>
+      <main className="app__main" aria-label={t('app.title')}>
+        {view === 'matrix' && (
+          <div className={`workspace ${backlogCollapsed ? 'workspace--backlog-collapsed' : ''}`}>
+            <div className="matrix-frame">
+              <div className="axis axis--x" aria-hidden="true">
+                <span className="axis__pole axis__pole--start">{t('axis.urgency.high')}</span>
+                <span className="axis__label">{t('axis.urgency')}</span>
+                <span className="axis__pole axis__pole--end">{t('axis.urgency.low')}</span>
+              </div>
+              <div className="axis axis--y" aria-hidden="true">
+                <span className="axis__pole axis__pole--start">{t('axis.importance.high')}</span>
+                <span className="axis__label">{t('axis.importance')}</span>
+                <span className="axis__pole axis__pole--end">{t('axis.importance.low')}</span>
+              </div>
+              <Matrix
+                tasks={activeTasks}
+                onDropTask={move}
+                onAdd={openNew}
+                onEdit={openEdit}
+                onDelete={remove}
+                onToggleComplete={toggleComplete}
+                onToBacklog={toBacklog}
+                onArchive={toArchive}
+              />
             </div>
-            <div className="axis axis--y" aria-hidden="true">
-              <span className="axis__pole axis__pole--start">{t('axis.importance.high')}</span>
-              <span className="axis__label">{t('axis.importance')}</span>
-              <span className="axis__pole axis__pole--end">{t('axis.importance.low')}</span>
-            </div>
-            <Matrix
-              tasks={activeTasks}
-              onDropTask={move}
-              onAdd={openNew}
+            <BacklogPanel
+              tasks={backlogTasks}
+              collapsed={backlogCollapsed}
+              onToggleCollapsed={() => setBacklogCollapsed((v) => !v)}
+              onAdd={openNewInBacklog}
               onEdit={openEdit}
               onDelete={remove}
-              onToggleComplete={toggleComplete}
-              onToBacklog={toBacklog}
               onArchive={toArchive}
+              onPromote={promoteFromBacklog}
+              onDropFromMatrix={toBacklog}
             />
           </div>
-          <BacklogPanel
-            tasks={backlogTasks}
-            collapsed={backlogCollapsed}
-            onToggleCollapsed={() => setBacklogCollapsed((v) => !v)}
-            onAdd={openNewInBacklog}
-            onEdit={openEdit}
-            onDelete={remove}
-            onArchive={toArchive}
-            onPromote={promoteFromBacklog}
-            onDropFromMatrix={toBacklog}
-          />
-        </div>
-      )}
+        )}
 
-      {view === 'archive' && (
-        <div className="stack-frame">
-          <ArchiveList
-            tasks={archiveTasks}
-            onEdit={openEdit}
-            onDelete={remove}
-            onRestore={restore}
-          />
-        </div>
-      )}
+        {view === 'archive' && (
+          <div className="stack-frame">
+            <ArchiveList
+              tasks={archiveTasks}
+              onEdit={openEdit}
+              onDelete={remove}
+              onRestore={restore}
+            />
+          </div>
+        )}
+      </main>
 
       <TaskForm
         open={formOpen}
