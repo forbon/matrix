@@ -66,7 +66,7 @@ export function BacklogPanel({
         aria-label={toggleLabel}
         title={toggleLabel}
       >
-        <span className="backlog-panel__rail-toggle" aria-hidden="true">›</span>
+        <span className="backlog-panel__rail-toggle" aria-hidden="true">››</span>
         {tasks.length > 0 && (
           <span className="backlog-panel__rail-count">{tasks.length}</span>
         )}
@@ -99,7 +99,7 @@ export function BacklogPanel({
             aria-label={toggleLabel}
             title={toggleLabel}
           >
-            ›
+            ››
           </button>
         </div>
       </header>
