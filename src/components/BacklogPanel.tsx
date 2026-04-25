@@ -67,10 +67,10 @@ export function BacklogPanel({
         title={toggleLabel}
       >
         <span className="backlog-panel__rail-toggle" aria-hidden="true">›</span>
-        <span className="backlog-panel__rail-label">{t('view.backlog')}</span>
         {tasks.length > 0 && (
           <span className="backlog-panel__rail-count">{tasks.length}</span>
         )}
+        <span className="backlog-panel__rail-label">{t('view.backlog')}</span>
       </button>
       <header className="backlog-panel__header">
         <div className="backlog-panel__heading">
