@@ -1,9 +1,10 @@
-import type { Task, Lang, QuadrantId, TaskState, Theme } from '../types';
+import type { Task, Lang, QuadrantId, TaskState, Theme, StyleVariant } from '../types';
 import { QUADRANT_IDS } from '../types';
 
 const TASKS_KEY = 'matrix.tasks';
 const LANG_KEY = 'matrix.lang';
 const THEME_KEY = 'matrix.theme';
+const STYLE_KEY = 'matrix.style';
 const BACKLOG_COLLAPSED_KEY = 'matrix.backlogCollapsed';
 
 const TASK_STATES: TaskState[] = ['active', 'backlog', 'archived'];
@@ -60,6 +61,15 @@ export function loadTheme(): Theme {
 
 export function saveTheme(theme: Theme): void {
   localStorage.setItem(THEME_KEY, theme);
+}
+
+export function loadStyle(): StyleVariant {
+  const raw = localStorage.getItem(STYLE_KEY);
+  return raw === 'atlas' ? 'atlas' : 'classic';
+}
+
+export function saveStyle(style: StyleVariant): void {
+  localStorage.setItem(STYLE_KEY, style);
 }
 
 export function loadBacklogCollapsed(): boolean {

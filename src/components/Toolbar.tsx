@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import type { Task, Theme } from '../types';
+import type { Task, Theme, StyleVariant } from '../types';
 import { useI18n } from '../hooks/useI18n';
 import { useTheme } from '../hooks/useTheme';
 import { LanguageSwitcher } from './LanguageSwitcher';
@@ -9,6 +9,11 @@ const THEME_GLYPH: Record<Theme, string> = {
   light: '☀',
   dark: '☾',
   system: '◐',
+};
+
+const STYLE_GLYPH: Record<StyleVariant, string> = {
+  classic: '◉',
+  atlas: '❡',
 };
 
 export type ViewId = 'matrix' | 'archive';
@@ -25,7 +30,7 @@ export function Toolbar({
   onImport,
 }: Props) {
   const { t } = useI18n();
-  const { theme, cycleTheme } = useTheme();
+  const { theme, cycleTheme, style, cycleStyle } = useTheme();
   const fileInput = useRef<HTMLInputElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -33,6 +38,10 @@ export function Toolbar({
   const themeLabel =
     theme === 'light' ? t('action.theme.light') : theme === 'dark' ? t('action.theme.dark') : t('action.theme.system');
   const themeTitle = `${t('action.theme.toggle')}: ${themeLabel}`;
+
+  const styleLabel =
+    style === 'atlas' ? t('action.style.atlas') : t('action.style.classic');
+  const styleTitle = `${t('action.style.toggle')}: ${styleLabel}`;
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -87,6 +96,16 @@ export function Toolbar({
         <div className="toolbar__desktop-right">
           <button
             type="button"
+            className="btn toolbar__style"
+            onClick={cycleStyle}
+            aria-label={styleTitle}
+            title={styleTitle}
+          >
+            <span className="toolbar__style-glyph" aria-hidden="true">{STYLE_GLYPH[style]}</span>
+            <span className="toolbar__style-label">{styleLabel}</span>
+          </button>
+          <button
+            type="button"
             className="btn toolbar__theme"
             onClick={cycleTheme}
             aria-label={themeTitle}
@@ -139,6 +158,17 @@ export function Toolbar({
                 }}
               >
                 {t('action.import')}
+              </button>
+              <button
+                type="button"
+                role="menuitem"
+                className="toolbar__menu-item"
+                onClick={() => {
+                  cycleStyle();
+                }}
+              >
+                <span className="toolbar__style-glyph" aria-hidden="true">{STYLE_GLYPH[style]}</span>
+                {' '}{t('action.style.toggle')}: {styleLabel}
               </button>
               <button
                 type="button"

@@ -93,6 +93,59 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* ── Atlas-Style Fonts (laden nur, wenn data-style='atlas' aktiv ist;
+      durch font-display: swap entsteht beim ersten Aktivieren minimaler Flash) ── */
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/newsreader-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/newsreader-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url('/fonts/ibm-plex-sans-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url('/fonts/ibm-plex-sans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/ibm-plex-mono-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/ibm-plex-mono-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
   /* paper */
   --paper:       #F4EFE5;
@@ -2345,16 +2398,17 @@ button { cursor: pointer; touch-action: manipulation; }
 
 
 /* ─── theme toggle button (shared light/dark) ───────────────── */
-.toolbar__theme {
+.toolbar__theme,
+.toolbar__style {
   display: inline-flex;
   align-items: center;
   gap: 6px;
 }
 
-.toolbar__theme-glyph {
-  font-size: 14px;
-  line-height: 1;
-  transform: translateY(-1px);
+.toolbar__theme-glyph,
+.toolbar__style-glyph {
+  font-size: inherit;
+  line-height: inherit;
 }
 
 /* ─── dark theme ────────────────────────────────────────────────
@@ -2573,4 +2627,668 @@ button { cursor: pointer; touch-action: manipulation; }
 /* ─── reduced motion ──────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ATLAS — editorial-modernistische Style-Variante
+   Aktiv über  data-style='atlas'  am <html>-Element.
+   Kombiniert sich orthogonal mit data-theme='light'|'dark'.
+   Newsreader (Display) · IBM Plex Sans (Body) · IBM Plex Mono (Meta)
+   Hairlines · gedämpfte Akzente · ohne Halftone, Washi & Rotationen
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Token-Overrides Atlas Light */
+:root[data-style='atlas'] {
+  --paper:       #FAFAF7;
+  --paper-hi:    #FFFFFF;
+  --paper-edge:  #E5E2D8;
+
+  --ink:         #15171C;
+  --ink-soft:    #5C616B;
+
+  --pink:        #A03A2E; --pink-deep:   #872E24;
+  --blue:        #1E3A5F; --blue-deep:   #15294A;
+  --yellow:      #7A5C28; --yellow-deep: #614921;
+
+  --ff-display:  'Newsreader', 'Source Serif Pro', Georgia, serif;
+  --ff-body:     'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --ff-mono:     'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --ff-poster:   var(--ff-display);
+}
+
+/* Token-Overrides Atlas Dark */
+:root[data-theme='dark'][data-style='atlas'] {
+  --paper:       #0D1117;
+  --paper-hi:    #161B22;
+  --paper-edge:  #2A2F38;
+
+  --ink:         #E6E1D6;
+  --ink-soft:    #ADB1BC;
+
+  --pink:        #C45A4A; --pink-deep:   #A04438;
+  --blue:        #4A6FA0; --blue-deep:   #365380;
+  --yellow:      #B58D4D; --yellow-deep: #95713D;
+}
+
+/* Atmosphäre: Halftone + Registration Cross + Selection */
+:root[data-style='atlas'] body { font-size: 14px; line-height: 1.55; }
+:root[data-style='atlas'] body::before { display: none; }
+:root[data-style='atlas'] body::after { display: none; }
+:root[data-style='atlas'] ::selection {
+  background: var(--paper-edge);
+  color: var(--ink);
+}
+
+/* App-Shell – etwas großzügigere Padding, ruhigerer Rhythmus */
+:root[data-style='atlas'] .app {
+  padding: 40px 48px 80px;
+  gap: 32px;
+}
+
+/* ── Masthead → editorial Header ──────────────────────────── */
+:root[data-style='atlas'] .masthead {
+  padding: 24px 0 22px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--paper-edge);
+  box-shadow: none;
+  align-items: baseline;
+}
+:root[data-style='atlas'] .masthead::before { display: none; }
+:root[data-style='atlas'] .masthead::after  { display: none; }
+
+:root[data-style='atlas'] .masthead__title {
+  font-family: var(--ff-display);
+  font-style: normal;
+  font-weight: 500;
+  font-size: clamp(2rem, 4.6vw, 3.4rem);
+  line-height: 1;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  text-shadow: none;
+}
+:root[data-style='atlas'] .masthead__title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ink);
+  text-shadow: none;
+}
+
+:root[data-style='atlas'] .masthead__meta {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  text-align: right;
+  line-height: 1.5;
+}
+:root[data-style='atlas'] .masthead__meta strong {
+  display: inline-block;
+  font-weight: 500;
+  padding: 2px 8px;
+  background: transparent;
+  border: 1px solid var(--paper-edge);
+  border-radius: 2px;
+  color: var(--ink);
+  transform: none;
+  box-shadow: none;
+  margin-top: 6px;
+}
+:root[data-style='atlas'] .masthead__rule-glyph {
+  color: var(--ink-soft);
+  font-weight: 400;
+  margin: 0 8px;
+}
+
+/* ── View-Nav (Matrix · Archiv) ───────────────────────────── */
+:root[data-style='atlas'] .view-nav__prefix { display: none; }
+:root[data-style='atlas'] .view-nav__link {
+  font-family: var(--ff-mono);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 0;
+  padding: 6px 0;
+}
+:root[data-style='atlas'] .view-nav__link--active {
+  color: var(--ink);
+  border-bottom: 2px solid var(--ink);
+}
+:root[data-style='atlas'] .view-nav__sep { color: var(--paper-edge); }
+:root[data-style='atlas'] .view-nav__count {
+  background: var(--paper-edge);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 1px 7px;
+  font-weight: 500;
+}
+
+/* ── Toolbar → schlanke Kontrolleiste ──────────────────────── */
+:root[data-style='atlas'] .toolbar {
+  background: var(--paper-hi);
+  border: 1px solid var(--paper-edge);
+  color: var(--ink);
+  box-shadow: none;
+  padding: 10px 14px;
+  border-radius: 4px;
+}
+:root[data-style='atlas'] .toolbar::before { display: none; }
+
+/* ── Buttons → flach mit Hairline, Hover invertiert ─────────── */
+:root[data-style='atlas'] .btn {
+  background: var(--paper-hi);
+  border: 1px solid var(--paper-edge);
+  color: var(--ink);
+  padding: 8px 14px;
+  font-family: var(--ff-body);
+  font-weight: 500;
+  font-size: 12.5px;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  border-radius: 3px;
+  box-shadow: none;
+  transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+@media (hover: hover) {
+  :root[data-style='atlas'] .btn:hover:not(:disabled) {
+    transform: none;
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+    box-shadow: none;
+  }
+}
+:root[data-style='atlas'] .btn:active:not(:disabled) {
+  transform: none;
+  box-shadow: none;
+  background: var(--ink);
+  color: var(--paper);
+}
+:root[data-style='atlas'] .btn:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+:root[data-style='atlas'] .btn:disabled {
+  opacity: 0.45;
+  box-shadow: none;
+}
+
+:root[data-style='atlas'] .btn--primary {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+  box-shadow: none;
+}
+@media (hover: hover) {
+  :root[data-style='atlas'] .btn--primary:hover:not(:disabled) {
+    background: var(--pink);
+    border-color: var(--pink);
+    color: var(--paper);
+    box-shadow: none;
+  }
+}
+
+:root[data-style='atlas'] .btn--ghost {
+  background: transparent;
+  border-color: var(--paper-edge);
+  color: var(--ink);
+  box-shadow: none;
+}
+@media (hover: hover) {
+  :root[data-style='atlas'] .btn--ghost:hover:not(:disabled) {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+    box-shadow: none;
+  }
+}
+
+/* Language Switcher → ruhig, hairline ────────────────────── */
+:root[data-style='atlas'] .lang-switcher {
+  color: var(--ink-soft);
+  border-left: 1px solid var(--paper-edge);
+  font-family: var(--ff-mono);
+  letter-spacing: 0.08em;
+}
+:root[data-style='atlas'] .lang-switcher select {
+  background: var(--paper-hi);
+  border: 1px solid var(--paper-edge);
+  color: var(--ink);
+  font-family: var(--ff-mono);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  box-shadow: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--ink-soft) 50%),
+    linear-gradient(135deg, var(--ink-soft) 50%, transparent 50%);
+  background-color: var(--paper-hi);
+  background-position: calc(100% - 12px) 55%, calc(100% - 7px) 55%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  border-radius: 3px;
+}
+:root[data-style='atlas'] .lang-switcher select:focus {
+  background-color: var(--paper-hi);
+  outline: 2px solid var(--blue);
+  outline-offset: 1px;
+}
+
+/* Toolbar-Theme/Style/Overflow Buttons ───────────────────── */
+:root[data-style='atlas'] .toolbar__overflow {
+  background: var(--paper-hi);
+  border: 1px solid var(--paper-edge);
+  color: var(--ink);
+  box-shadow: none;
+}
+@media (hover: hover) {
+  :root[data-style='atlas'] .toolbar__overflow:hover:not(:disabled) {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+}
+:root[data-style='atlas'] .toolbar__menu {
+  background: var(--paper-hi);
+  border: 1px solid var(--paper-edge);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+:root[data-style='atlas'] .toolbar__menu-item:hover:not(:disabled) {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ── Matrix-Frame & -Grid → hairline, kein Block-Shadow ───── */
+:root[data-style='atlas'] .matrix {
+  border: 1px solid var(--paper-edge);
+  background: var(--paper-edge);
+  gap: 1px;
+  box-shadow: none;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* ── Quadranten → helle Flächen mit farbigem Top-Akzent ──── */
+:root[data-style='atlas'] .quadrant {
+  background: var(--paper-hi);
+  background-image: none;
+  color: var(--ink);
+  border-top: 3px solid var(--spot);
+}
+:root[data-style='atlas'] .quadrant--do,
+:root[data-style='atlas'] .quadrant--schedule,
+:root[data-style='atlas'] .quadrant--delegate,
+:root[data-style='atlas'] .quadrant--eliminate {
+  background: var(--paper-hi);
+  background-image: none;
+  color: var(--ink);
+}
+:root[data-style='atlas'] .quadrant--over {
+  outline: 1px solid var(--spot);
+  outline-offset: -4px;
+  filter: none;
+  background: color-mix(in srgb, var(--spot) 4%, var(--paper-hi));
+}
+
+:root[data-style='atlas'] .quadrant__header {
+  padding: 22px 24px 14px;
+}
+:root[data-style='atlas'] .quadrant__eyebrow {
+  color: var(--spot);
+  opacity: 1;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+}
+:root[data-style='atlas'] .quadrant__title {
+  font-family: var(--ff-display);
+  font-weight: 500;
+  font-size: clamp(20px, 1.9vw, 26px);
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--ink);
+}
+:root[data-style='atlas'] .quadrant__hint {
+  font-family: var(--ff-body);
+  font-style: normal;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  opacity: 1;
+}
+:root[data-style='atlas'] .quadrant__add {
+  width: 32px; height: 32px;
+  border: 1px solid var(--paper-edge);
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 20px;
+  box-shadow: none;
+  border-radius: 50%;
+}
+@media (hover: hover) {
+  :root[data-style='atlas'] .quadrant__add:hover {
+    transform: none;
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+    box-shadow: none;
+  }
+}
+:root[data-style='atlas'] .quadrant__add:active {
+  transform: none;
+  box-shadow: none;
+}
+:root[data-style='atlas'] .quadrant__empty {
+  font-family: var(--ff-body);
+  font-style: normal;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+:root[data-style='atlas'] .quadrant__empty::before,
+:root[data-style='atlas'] .quadrant__empty::after { content: ''; }
+
+/* ── Task Cards → klare Karteikarte, Hairline ─────────────── */
+:root[data-style='atlas'] .task-card {
+  background: var(--paper-hi);
+  border: 1px solid var(--paper-edge);
+  padding: 16px 14px 12px;
+  color: var(--ink);
+  box-shadow: none;
+  border-radius: 4px;
+  animation: none;
+}
+:root[data-style='atlas'] .task-card::before {
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--spot, var(--ink));
+  border: 0;
+}
+@media (hover: hover) {
+  :root[data-style='atlas'] .task-card:hover {
+    transform: none;
+    background: var(--paper-hi);
+    border-color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  }
+}
+:root[data-style='atlas'] .task-card.completed {
+  opacity: 0.55;
+  background: var(--paper);
+}
+:root[data-theme='dark'][data-style='atlas'] .task-card.completed {
+  background: var(--paper);
+  opacity: 0.55;
+}
+
+/* ── Achsen-Labels: flach, ohne Schatten/Box ──────────────── */
+:root[data-style='atlas'] .axis__label {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--ink);
+  padding: 2px 0 4px;
+  box-shadow: none;
+  font-family: var(--ff-body);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--ink);
+}
+:root[data-style='atlas'] .axis--x .axis__pole,
+:root[data-style='atlas'] .axis--y .axis__pole {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: var(--ink-soft);
+  font-family: var(--ff-mono);
+  letter-spacing: 0.1em;
+  padding: 2px 0;
+}
+:root[data-style='atlas'] .axis--x .axis__pole--start,
+:root[data-style='atlas'] .axis--y .axis__pole--start { color: var(--ink); }
+:root[data-style='atlas'] .axis--y .axis__label { box-shadow: none; }
+
+/* ── Backlog Panel ─────────────────────────────────────────── */
+:root[data-style='atlas'] .backlog-panel {
+  background: var(--paper-hi);
+  background-image: none;
+  border: 1px solid var(--paper-edge);
+  box-shadow: none;
+  border-radius: 4px;
+}
+:root[data-style='atlas'] .backlog-panel--over {
+  outline: 1px solid var(--blue);
+  outline-offset: -4px;
+  filter: none;
+}
+:root[data-style='atlas'] .backlog-panel__header {
+  border-bottom: 1px solid var(--paper-edge);
+}
+:root[data-style='atlas'] .backlog-panel__title {
+  font-family: var(--ff-display);
+  font-weight: 500;
+  font-size: clamp(18px, 1.6vw, 22px);
+  letter-spacing: -0.005em;
+  text-transform: none;
+  color: var(--ink);
+}
+:root[data-style='atlas'] .backlog-panel__eyebrow,
+:root[data-style='atlas'] .backlog-panel__count {
+  font-family: var(--ff-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 400;
+}
+:root[data-style='atlas'] .backlog-panel__toggle,
+:root[data-style='atlas'] .backlog-panel__add {
+  border: 1px solid var(--paper-edge);
+  background: transparent;
+  color: var(--ink);
+  box-shadow: none;
+  border-radius: 50%;
+}
+@media (hover: hover) {
+  :root[data-style='atlas'] .backlog-panel__toggle:hover,
+  :root[data-style='atlas'] .backlog-panel__add:hover {
+    transform: none;
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+    box-shadow: none;
+  }
+}
+
+/* ── Archive (Stack-Layout) ─────────────────────────────────── */
+:root[data-style='atlas'] .stack {
+  background: var(--paper-hi);
+  background-image: none;
+  border: 1px solid var(--paper-edge);
+  box-shadow: none;
+  border-radius: 4px;
+}
+:root[data-style='atlas'] .stack--archive {
+  background: var(--paper-hi);
+}
+:root[data-style='atlas'] .stack__header {
+  border-bottom: 1px solid var(--paper-edge);
+}
+:root[data-style='atlas'] .stack__eyebrow {
+  font-family: var(--ff-mono);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--ink-soft);
+  opacity: 1;
+}
+:root[data-style='atlas'] .stack__title {
+  font-family: var(--ff-display);
+  font-weight: 500;
+  font-size: clamp(20px, 1.9vw, 26px);
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+
+/* ── Modal / Task-Form ─────────────────────────────────────── */
+:root[data-style='atlas'] .modal {
+  background: rgba(13, 17, 23, 0.55);
+}
+:root[data-style='atlas'] .modal::before { display: none; }
+:root[data-style='atlas'] .modal__panel {
+  background: var(--paper-hi);
+  border: 1px solid var(--paper-edge);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  border-radius: 6px;
+  animation: panel-in-atlas 200ms ease;
+}
+:root[data-style='atlas'] .modal__panel::before { display: none; }
+:root[data-style='atlas'] .modal__panel::after { display: none; }
+:root[data-style='atlas'] .modal__title {
+  font-family: var(--ff-display);
+  font-weight: 500;
+  font-style: normal;
+  letter-spacing: -0.005em;
+  text-shadow: none;
+  font-size: clamp(22px, 2.4vw, 28px);
+  margin: 2px 0;
+}
+:root[data-style='atlas'] .modal__actions {
+  border-top: 1px solid var(--paper-edge);
+}
+@keyframes panel-in-atlas {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Atlas auf Mobile: Bottom-Sheet behält die korrekte Form,
+   nur der Risograph-Offset-Schatten wird durch eine ruhige
+   Schlagschatten-Kante ersetzt. */
+@media (max-width: 880px) {
+  :root[data-style='atlas'] .modal__panel {
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.18);
+    border-radius: 20px 20px 0 0;
+  }
+}
+:root[data-style='atlas'] .field input,
+:root[data-style='atlas'] .field textarea,
+:root[data-style='atlas'] .field select {
+  background: var(--paper);
+  border: 1px solid var(--paper-edge);
+  color: var(--ink);
+  box-shadow: none;
+  border-radius: 3px;
+}
+:root[data-style='atlas'] .field input:focus,
+:root[data-style='atlas'] .field textarea:focus,
+:root[data-style='atlas'] .field select:focus {
+  outline: 2px solid var(--blue);
+  outline-offset: 1px;
+  background: var(--paper-hi);
+}
+
+/* ── FAB → flach mit Schlagschatten statt Risograph-Offset ─── */
+:root[data-style='atlas'] .toolbar__fab {
+  background: var(--ink);
+  color: var(--paper);
+  border: 0;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.20);
+}
+
+/* ── Quadrant-Tabs (Mobile) ────────────────────────────────── */
+:root[data-style='atlas'] .quadrant-tabs__pill {
+  background: transparent;
+  border: 1px solid var(--paper-edge);
+  color: var(--ink-soft);
+  box-shadow: none;
+  font-family: var(--ff-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+:root[data-style='atlas'] .quadrant-tabs__pill--active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+  box-shadow: none;
+}
+
+/* ── Footer / Colophon ─────────────────────────────────────── */
+:root[data-style='atlas'] .colophon {
+  font-family: var(--ff-mono);
+  color: var(--ink-soft);
+  border-top: 1px solid var(--paper-edge);
+  padding-top: 16px;
+}
+
+/* ── Dark-Mode-Feinschliff für Atlas ───────────────────────── */
+:root[data-theme='dark'][data-style='atlas'] .toolbar {
+  background: var(--paper-hi);
+  border-color: var(--paper-edge);
+}
+:root[data-theme='dark'][data-style='atlas'] .matrix {
+  background: var(--paper-edge);
+  border-color: var(--paper-edge);
+}
+:root[data-theme='dark'][data-style='atlas'] .quadrant--do,
+:root[data-theme='dark'][data-style='atlas'] .quadrant--schedule,
+:root[data-theme='dark'][data-style='atlas'] .quadrant--delegate,
+:root[data-theme='dark'][data-style='atlas'] .quadrant--eliminate {
+  background: var(--paper-hi);
+  color: var(--ink);
+  background-image: none;
+  box-shadow: none;
+}
+:root[data-theme='dark'][data-style='atlas'] .axis__label {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+:root[data-theme='dark'][data-style='atlas'] .masthead__meta strong {
+  color: var(--ink);
+  border-color: var(--paper-edge);
+}
+:root[data-theme='dark'][data-style='atlas'] .lang-switcher select {
+  color: var(--ink);
+  background-color: var(--paper-hi);
+  border-color: var(--paper-edge);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--ink-soft) 50%),
+    linear-gradient(135deg, var(--ink-soft) 50%, transparent 50%);
+}
+:root[data-theme='dark'][data-style='atlas'] .modal {
+  background: rgba(0, 0, 0, 0.66);
+}
+:root[data-theme='dark'][data-style='atlas'] .quadrant--over {
+  background: color-mix(in srgb, var(--spot) 14%, var(--paper-hi));
+  outline-color: var(--spot);
+}
+@media (hover: hover) {
+  :root[data-theme='dark'][data-style='atlas'] .btn:hover:not(:disabled),
+  :root[data-theme='dark'][data-style='atlas'] .btn--primary:hover:not(:disabled),
+  :root[data-theme='dark'][data-style='atlas'] .btn--ghost:hover:not(:disabled),
+  :root[data-theme='dark'][data-style='atlas'] .toolbar__menu-item:hover:not(:disabled),
+  :root[data-theme='dark'][data-style='atlas'] .toolbar__overflow:hover:not(:disabled) {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+}
+:root[data-theme='dark'][data-style='atlas'] .btn--primary {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+@media (hover: hover) {
+  :root[data-theme='dark'][data-style='atlas'] .btn--primary:hover:not(:disabled) {
+    background: var(--pink);
+    color: var(--paper);
+    border-color: var(--pink);
+  }
+}
+:root[data-theme='dark'][data-style='atlas'] .field input:focus,
+:root[data-theme='dark'][data-style='atlas'] .field textarea:focus,
+:root[data-theme='dark'][data-style='atlas'] .field select:focus {
+  color: var(--ink);
+  background: var(--paper-hi);
+}
+:root[data-theme='dark'][data-style='atlas'] ::selection {
+  background: var(--paper-edge);
+  color: var(--ink);
 }

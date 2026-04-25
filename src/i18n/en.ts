@@ -51,6 +51,9 @@ const en: Dict = {
   'action.theme.light': 'Light',
   'action.theme.dark': 'Dark',
   'action.theme.system': 'System',
+  'action.style.toggle': 'Style',
+  'action.style.classic': 'Classic',
+  'action.style.atlas': 'Atlas',
 
   'view.matrix': 'Matrix',
   'view.backlog': 'Backlog',

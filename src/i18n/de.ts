@@ -49,6 +49,9 @@ const de = {
   'action.theme.light': 'Hell',
   'action.theme.dark': 'Dunkel',
   'action.theme.system': 'System',
+  'action.style.toggle': 'Stil',
+  'action.style.classic': 'Klassisch',
+  'action.style.atlas': 'Atlas',
 
   'view.matrix': 'Matrix',
   'view.backlog': 'Backlog',

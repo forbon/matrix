@@ -1,13 +1,16 @@
 import { createContext, createElement, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { Theme, ResolvedTheme } from '../types';
-import { loadTheme, saveTheme } from '../lib/storage';
+import type { Theme, ResolvedTheme, StyleVariant } from '../types';
+import { loadStyle, loadTheme, saveStyle, saveTheme } from '../lib/storage';
 
 interface ThemeContextValue {
   theme: Theme;
   resolvedTheme: ResolvedTheme;
   setTheme: (theme: Theme) => void;
   cycleTheme: () => void;
+  style: StyleVariant;
+  setStyle: (style: StyleVariant) => void;
+  cycleStyle: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
@@ -31,8 +34,13 @@ function applyTheme(resolved: ResolvedTheme): void {
   if (meta) meta.setAttribute('content', resolved === 'dark' ? DARK_META : LIGHT_META);
 }
 
+function applyStyle(style: StyleVariant): void {
+  document.documentElement.setAttribute('data-style', style);
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(() => loadTheme());
+  const [style, setStyleState] = useState<StyleVariant>(() => loadStyle());
   const [systemDark, setSystemDark] = useState<boolean>(() => systemPrefersDark());
 
   useEffect(() => {
@@ -50,8 +58,16 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, [resolvedTheme]);
 
   useEffect(() => {
+    applyStyle(style);
+  }, [style]);
+
+  useEffect(() => {
     saveTheme(theme);
   }, [theme]);
+
+  useEffect(() => {
+    saveStyle(style);
+  }, [style]);
 
   const setTheme = useCallback((next: Theme) => setThemeState(next), []);
 
@@ -59,9 +75,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setThemeState((prev) => (prev === 'light' ? 'dark' : prev === 'dark' ? 'system' : 'light'));
   }, []);
 
+  const setStyle = useCallback((next: StyleVariant) => setStyleState(next), []);
+
+  const cycleStyle = useCallback(() => {
+    setStyleState((prev) => (prev === 'classic' ? 'atlas' : 'classic'));
+  }, []);
+
   const value = useMemo<ThemeContextValue>(
-    () => ({ theme, resolvedTheme, setTheme, cycleTheme }),
-    [theme, resolvedTheme, setTheme, cycleTheme],
+    () => ({ theme, resolvedTheme, setTheme, cycleTheme, style, setStyle, cycleStyle }),
+    [theme, resolvedTheme, setTheme, cycleTheme, style, setStyle, cycleStyle],
   );
 
   return createElement(ThemeContext.Provider, { value }, children);
