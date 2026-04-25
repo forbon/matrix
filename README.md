@@ -16,6 +16,7 @@ Eine browserbasierte Matrix-Anwendung zur Priorisierung von Aufgaben nach **Wich
 - **Import/Export** als JSON oder CSV
 - **Zweisprachig** (Deutsch / Englisch), persistent
 - **Hell / Dunkel / System**-Theme, persistent
+- **Zwei Design-Stile**: *Klassisch* (Risograph-Zine) und *Atlas* (editorial-modernistisch), persistent
 
 ## Deployment-Konfiguration
 
@@ -74,6 +75,7 @@ npm run preview   # Build lokal prüfen
 - Import: **Importieren** → Datei wählen. Bei vorhandenen Aufgaben wird gefragt, ob sie ersetzt oder zusammengeführt werden sollen.
 - Sprache: oben rechts umschaltbar.
 - Theme: Toggle in der Toolbar zykelt **Hell → Dunkel → System**. Beim ersten Start folgt das Theme der System-Einstellung (`prefers-color-scheme`).
+- Stil: Toggle in der Toolbar wechselt zwischen **Klassisch** (Risograph-Zine, Default) und **Atlas** (editorial-modernistisch — gedämpfte Farben, Newsreader & IBM Plex, ohne Halftone). Funktioniert orthogonal zu Hell/Dunkel.
 
 ## Erinnerungen — Limitation
 
@@ -108,6 +110,7 @@ Gespeichert unter den LocalStorage-Schlüsseln:
 - `matrix.tasks` — Aufgabenliste (JSON)
 - `matrix.lang` — `de` | `en`
 - `matrix.theme` — `light` | `dark` | `system`
+- `matrix.style` — `classic` | `atlas`
 - `matrix.firedReminders` — bereits ausgelöste Erinnerungs-IDs
 
 ## Lizenz
