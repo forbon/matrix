@@ -12,7 +12,6 @@ Eine browserbasierte Matrix-Anwendung zur Priorisierung von Aufgaben nach **Wich
 - **Aufgaben** anlegen, bearbeiten, abhaken, löschen
 - **Links** pro Aufgabe
 - **Fälligkeitsdatum** mit visuellen Markern (überfällig / heute / morgen)
-- **Browser-Benachrichtigungen** bei fälligen Aufgaben (optional)
 - **Import/Export** als JSON oder CSV
 - **Zweisprachig** (Deutsch / Englisch), persistent
 - **Hell / Dunkel / System**-Theme, persistent
@@ -80,13 +79,9 @@ npm run preview   # Build lokal prüfen
 - Theme: Toggle in der Toolbar zykelt **Hell → Dunkel → System**. Beim ersten Start folgt das Theme der System-Einstellung (`prefers-color-scheme`).
 - Stil: Toggle in der Toolbar wechselt zwischen **Klassisch** (Risograph-Zine, Default) und **Atlas** (editorial-modernistisch — gedämpfte Farben, Newsreader & IBM Plex, ohne Halftone). Funktioniert orthogonal zu Hell/Dunkel.
 
-## Erinnerungen — Limitation
-
-Browser-Benachrichtigungen funktionieren **nur bei geöffnetem Tab**. Da bewusst kein Service Worker verwendet wird (einfacher Aufbau, keine Registrierung), gibt es kein Background-Push. Für eine einfache tägliche Nutzung reicht das: überfällige und heute fällige Aufgaben werden beim Öffnen ohnehin visuell hervorgehoben.
-
 ## Stack
 
-React 18 · TypeScript · Vite · LocalStorage · native HTML5 Drag & Drop · Notification API. Bewusst ohne zusätzliche Libraries für DnD, i18n oder UI.
+React 18 · TypeScript · Vite · LocalStorage · native HTML5 Drag & Drop. Bewusst ohne zusätzliche Libraries für DnD, i18n oder UI.
 
 ## Datenstruktur
 
@@ -114,7 +109,6 @@ Gespeichert unter den LocalStorage-Schlüsseln:
 - `matrix.lang` — `de` | `en`
 - `matrix.theme` — `light` | `dark` | `system`
 - `matrix.style` — `classic` | `atlas`
-- `matrix.firedReminders` — bereits ausgelöste Erinnerungs-IDs
 
 ## Lizenz
 

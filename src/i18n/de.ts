@@ -32,9 +32,6 @@ const de = {
   'action.cancel': 'Abbrechen',
   'action.export.json': 'Export',
   'action.import': 'Import',
-  'action.enableReminders': 'Erinnerungen aktivieren',
-  'action.remindersOn': 'Erinnerungen aktiv',
-  'action.remindersDenied': 'Erinnerungen blockiert',
   'action.more': 'Mehr',
   'action.moveTo': 'Verschieben',
   'action.close': 'Schließen',
@@ -97,8 +94,6 @@ const de = {
   'lang.label': 'Sprache',
   'lang.de': 'Deutsch',
   'lang.en': 'English',
-
-  'notify.title': 'Aufgabe fällig',
 
   'colophon.thirdParty': 'Drittanbieter-Lizenzen',
 

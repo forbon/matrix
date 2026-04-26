@@ -34,9 +34,6 @@ const en: Dict = {
   'action.cancel': 'Cancel',
   'action.export.json': 'Export',
   'action.import': 'Import',
-  'action.enableReminders': 'Enable reminders',
-  'action.remindersOn': 'Reminders on',
-  'action.remindersDenied': 'Reminders blocked',
   'action.more': 'More',
   'action.moveTo': 'Move',
   'action.close': 'Close',
@@ -99,8 +96,6 @@ const en: Dict = {
   'lang.label': 'Language',
   'lang.de': 'Deutsch',
   'lang.en': 'English',
-
-  'notify.title': 'Task due',
 
   'colophon.thirdParty': 'Third-party licenses',
 
