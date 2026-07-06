@@ -24,6 +24,8 @@ const en: Dict = {
   'quadrant.delegate.hint': 'Urgent, not important',
   'quadrant.eliminate': 'Eliminate',
   'quadrant.eliminate.hint': 'Neither important nor urgent',
+  'balance.title': 'Balance',
+  'balance.empty': 'No open tasks',
 
   'action.add': 'New Task',
   'action.edit': 'Edit',

@@ -22,6 +22,8 @@ const de = {
   'quadrant.delegate.hint': 'Dringend, nicht wichtig',
   'quadrant.eliminate': 'Eliminieren',
   'quadrant.eliminate.hint': 'Weder wichtig noch dringend',
+  'balance.title': 'Balance',
+  'balance.empty': 'Keine offenen Aufgaben',
 
   'action.add': 'Neue Aufgabe',
   'action.edit': 'Bearbeiten',
