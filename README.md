@@ -12,7 +12,7 @@ Eine browserbasierte Matrix-Anwendung zur Priorisierung von Aufgaben nach **Wich
 - **Aufgaben** anlegen, bearbeiten, abhaken, löschen
 - **Links** pro Aufgabe
 - **Fälligkeitsdatum** mit visuellen Markern (überfällig / heute / morgen)
-- **Import/Export** als JSON oder CSV
+- **Import/Export** als JSON
 - **Zweisprachig** (Deutsch / Englisch), persistent
 - **Hell / Dunkel / System**-Theme, persistent
 - **Zwei Design-Stile**: *Klassisch* (Risograph-Zine) und *Atlas* (editorial-modernistisch), persistent
@@ -73,7 +73,7 @@ npm run preview   # Build lokal prüfen
 - Neue Aufgabe: Klick auf **+ Neue Aufgabe** in der Toolbar oder auf das **+**-Symbol in einem Quadranten.
 - Verschieben: Aufgabenkarte mit der Maus in einen anderen Quadranten ziehen.
 - Bearbeiten: auf eine Aufgabe klicken (nicht auf Checkbox/Löschen).
-- Export: **Export JSON** oder **Export CSV** lädt eine Datei herunter.
+- Export: **Export JSON** lädt eine Datei herunter.
 - Import: **Importieren** → Datei wählen. Bei vorhandenen Aufgaben wird gefragt, ob sie ersetzt oder zusammengeführt werden sollen.
 - Sprache: oben rechts umschaltbar.
 - Theme: Toggle in der Toolbar zykelt **Hell → Dunkel → System**. Beim ersten Start folgt das Theme der System-Einstellung (`prefers-color-scheme`).
