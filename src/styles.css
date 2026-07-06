@@ -3299,6 +3299,8 @@ button { cursor: pointer; touch-action: manipulation; }
   min-width: 0;
 }
 
+.matrix-col > .matrix-frame { flex: 1; min-height: 0; }
+
 .balance {
   display: flex;
   align-items: center;
@@ -3334,7 +3336,7 @@ button { cursor: pointer; touch-action: manipulation; }
   justify-content: center;
   min-width: 0;
   background: var(--spot, var(--pink));
-  color: var(--paper);
+  color: var(--on-spot, var(--paper));
   font-size: 0.65rem;
   font-weight: 700;
   line-height: 1;
@@ -3364,7 +3366,7 @@ button { cursor: pointer; touch-action: manipulation; }
   border: 1px solid var(--ink);
 }
 
-.balance__seg--do,       .balance__legend-item--do       { --spot: var(--pink); }
-.balance__seg--schedule, .balance__legend-item--schedule { --spot: var(--blue); }
-.balance__seg--delegate, .balance__legend-item--delegate { --spot: var(--yellow); }
-.balance__seg--eliminate,.balance__legend-item--eliminate{ --spot: var(--ink); }
+.balance__seg--do,       .balance__legend-item--do       { --spot: var(--pink);   --on-spot: var(--ink); }
+.balance__seg--schedule, .balance__legend-item--schedule { --spot: var(--blue);   --on-spot: var(--paper); }
+.balance__seg--delegate, .balance__legend-item--delegate { --spot: var(--yellow); --on-spot: var(--ink); }
+.balance__seg--eliminate,.balance__legend-item--eliminate{ --spot: var(--ink);    --on-spot: var(--paper); }
