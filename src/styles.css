@@ -3290,3 +3290,81 @@ button { cursor: pointer; touch-action: manipulation; }
   background: var(--paper-edge);
   color: var(--ink);
 }
+
+/* ─── quadrant balance strip ─────────────────────────────────── */
+.matrix-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.balance {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  font-size: 0.8rem;
+}
+
+.balance__title {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.balance__empty {
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.balance__bar {
+  display: flex;
+  flex: 1 1 200px;
+  min-width: 160px;
+  height: 14px;
+  border: 2px solid var(--ink);
+  overflow: hidden;
+}
+
+.balance__seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  background: var(--spot, var(--pink));
+  color: var(--paper);
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.balance__seg + .balance__seg { border-left: 2px solid var(--ink); }
+
+.balance__seg-num { padding: 0 3px; }
+
+.balance__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  color: var(--ink-soft);
+}
+
+.balance__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.balance__dot {
+  width: 9px;
+  height: 9px;
+  background: var(--spot, var(--pink));
+  border: 1px solid var(--ink);
+}
+
+.balance__seg--do,       .balance__legend-item--do       { --spot: var(--pink); }
+.balance__seg--schedule, .balance__legend-item--schedule { --spot: var(--blue); }
+.balance__seg--delegate, .balance__legend-item--delegate { --spot: var(--yellow); }
+.balance__seg--eliminate,.balance__legend-item--eliminate{ --spot: var(--ink); }
