@@ -6,10 +6,8 @@ import { loadStyle, loadTheme, saveStyle, saveTheme } from '../lib/storage';
 interface ThemeContextValue {
   theme: Theme;
   resolvedTheme: ResolvedTheme;
-  setTheme: (theme: Theme) => void;
   cycleTheme: () => void;
   style: StyleVariant;
-  setStyle: (style: StyleVariant) => void;
   cycleStyle: () => void;
 }
 
@@ -69,21 +67,17 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     saveStyle(style);
   }, [style]);
 
-  const setTheme = useCallback((next: Theme) => setThemeState(next), []);
-
   const cycleTheme = useCallback(() => {
     setThemeState((prev) => (prev === 'light' ? 'dark' : prev === 'dark' ? 'system' : 'light'));
   }, []);
-
-  const setStyle = useCallback((next: StyleVariant) => setStyleState(next), []);
 
   const cycleStyle = useCallback(() => {
     setStyleState((prev) => (prev === 'classic' ? 'atlas' : 'classic'));
   }, []);
 
   const value = useMemo<ThemeContextValue>(
-    () => ({ theme, resolvedTheme, setTheme, cycleTheme, style, setStyle, cycleStyle }),
-    [theme, resolvedTheme, setTheme, cycleTheme, style, setStyle, cycleStyle],
+    () => ({ theme, resolvedTheme, cycleTheme, style, cycleStyle }),
+    [theme, resolvedTheme, cycleTheme, style, cycleStyle],
   );
 
   return createElement(ThemeContext.Provider, { value }, children);

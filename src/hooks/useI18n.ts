@@ -18,14 +18,12 @@ interface I18nContextValue {
 const I18nContext = createContext<I18nContextValue | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>(() => loadLang());
+  const [lang, setLang] = useState<Lang>(() => loadLang());
 
   useEffect(() => {
     saveLang(lang);
     document.documentElement.lang = lang;
   }, [lang]);
-
-  const setLang = useCallback((next: Lang) => setLangState(next), []);
 
   const t = useCallback(
     (key: TKey): string => {
