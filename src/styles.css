@@ -1537,6 +1537,11 @@ button { cursor: pointer; touch-action: manipulation; }
   }
 }
 
+/* ponytail: card-in animation leaves a transform (fill-mode: both) → each card is
+   its own stacking context, trapping the menu behind later sibling cards. Lift the
+   card while its menu is open so card + menu sit above the siblings. */
+.task-card:has(.task-card__menu) { z-index: 40; }
+
 .task-card__menu {
   position: absolute;
   top: calc(100% + 4px);
