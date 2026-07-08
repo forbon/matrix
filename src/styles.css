@@ -942,7 +942,8 @@ button { cursor: pointer; touch-action: manipulation; }
   .task-card__delete:hover {
     background: var(--pink);
     color: var(--paper);
-    transform: rotate(-8deg);
+    /* translateZ(0): GPU-Ebene erzwingen, sonst zackt der Rahmen beim Rotieren */
+    transform: rotate(-8deg) translateZ(0);
   }
 }
 
@@ -1533,7 +1534,8 @@ button { cursor: pointer; touch-action: manipulation; }
   .task-card__move:hover {
     background: var(--blue);
     color: var(--paper);
-    transform: rotate(8deg);
+    /* translateZ(0): GPU-Ebene erzwingen, sonst zackt der Rahmen beim Rotieren */
+    transform: rotate(8deg) translateZ(0);
   }
 }
 
