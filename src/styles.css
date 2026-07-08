@@ -746,7 +746,8 @@ button { cursor: pointer; touch-action: manipulation; }
 
 @media (hover: hover) {
   .quadrant__add:hover {
-    transform: translate(-1px, -1px) rotate(-3deg);
+    /* translateZ(0): GPU-Ebene erzwingen, sonst zackt der Rahmen beim Rotieren */
+    transform: translate(-1px, -1px) rotate(-3deg) translateZ(0);
     box-shadow: 4px 4px 0 0 currentColor;
   }
 }
@@ -1289,7 +1290,8 @@ button { cursor: pointer; touch-action: manipulation; }
   .link-row__remove:hover {
     background: var(--pink);
     color: var(--paper);
-    transform: rotate(-8deg);
+    /* translateZ(0): GPU-Ebene erzwingen, sonst zackt der Rahmen beim Rotieren */
+    transform: rotate(-8deg) translateZ(0);
   }
 }
 
@@ -1351,7 +1353,8 @@ button { cursor: pointer; touch-action: manipulation; }
 @media (hover: hover) {
   .task-link:hover {
     background: var(--yellow);
-    transform: translate(-1px, -1px) rotate(-1deg);
+    /* translateZ(0): GPU-Ebene erzwingen, sonst zackt der Rahmen beim Rotieren */
+    transform: translate(-1px, -1px) rotate(-1deg) translateZ(0);
     box-shadow: 3px 3px 0 0 var(--spot, var(--pink));
   }
 }
@@ -1931,7 +1934,8 @@ button { cursor: pointer; touch-action: manipulation; }
 }
 @media (hover: hover) {
   .backlog-panel__add:hover {
-    transform: translate(-1px, -1px) rotate(-3deg);
+    /* translateZ(0): GPU-Ebene erzwingen, sonst zackt der Rahmen beim Rotieren */
+    transform: translate(-1px, -1px) rotate(-3deg) translateZ(0);
     box-shadow: 4px 4px 0 0 var(--ink);
   }
 }
